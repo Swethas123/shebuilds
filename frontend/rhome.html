@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resident Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #7F00FF, #E100FF);
+      min-height: 100vh;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 20px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      padding: 1rem 1rem 2rem;
+    }
+
+    header {
+      background: #7F00FF;
+      color: white;
+      padding: 1rem;
+      border-radius: 15px 15px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h2 {
+      font-size: 1.2rem;
+    }
+
+    .lang-btn {
+      background: white;
+      color: #7F00FF;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border: none;
+    }
+
+    .welcome-text {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .announcement {
+      margin: 1.5rem 0;
+      background: #00C896;
+      color: white;
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 0.95rem;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .card {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      border-radius: 15px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .card:nth-child(2) {
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    }
+
+    .card:nth-child(3) {
+      background: linear-gradient(135deg, #c471ed, #f64f59);
+    }
+
+    footer {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #aaa;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        margin-top: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="welcome-text">Hey Priya! 👋</div>
+      <div style="text-align: right;">
+        <div style="font-size: 0.8rem;">A-401 • Sunshine Apartments</div>
+        <button class="lang-btn" onclick="toggleLanguage()">GB EN</button>
+      </div>
+    </header>
+
+    <div class="announcement">🎉 Bollywood Karaoke Night – Tonight 7PM!</div>
+
+    <div class="card" onclick="goTo('voice')">
+      <h3>🎙️ Voice Complaint</h3>
+      <p>Report issues instantly with voice commands</p>
+    </div>
+
+    <div class="card" onclick="goTo('track')">
+      <h3>📄 Track Requests</h3>
+      <p>Check status of your tickets and requests</p>
+    </div>
+
+    <div class="card" onclick="goTo('events')">
+      <h3>🎊 Community Events</h3>
+      <p>Discover and join upcoming activities</p>
+    </div>
+
+    <footer>© 2025 VoiceConnect</footer>
+  </div>
+
+  <script>
+    function toggleLanguage() {
+      alert("Language switch not implemented yet!");
+    }
+
+    function goTo(page) {
+      alert(`Navigate to ${page} page`);
+      // Here you can use: window.location.href = `/page.html`
+    }
+  </script>
+</body>
+</html>
