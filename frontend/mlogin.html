@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manager Login - VoiceConnect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    header h2 {
+      font-size: 1.2rem;
+    }
+
+    .lang-btn, .back-btn {
+      background: white;
+      color: #333;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+    }
+
+    .back-btn {
+      background: transparent;
+      color: white;
+    }
+
+    .main {
+      flex: 1;
+      background-color: white;
+      border-radius: 1rem;
+      margin: 1rem;
+      padding: 2rem 1rem;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .main img {
+      width: 60px;
+      margin-bottom: 1rem;
+    }
+
+    .main h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .main p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      width: 100%;
+      max-width: 400px;
+      text-align: left;
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .btn-primary, .btn-secondary {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.8rem;
+      margin-top: 1rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+    }
+
+    .btn-secondary {
+      background-color: #f1f1f1;
+      color: #333;
+    }
+
+    nav {
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.6rem 0;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+
+    nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #333;
+    }
+
+    nav .nav-item img {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 4px;
+    }
+
+    .nav-active {
+      color: #2575fc;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .main h1 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="back-btn">&#8592; Back</button>
+    <h2>Manager Login</h2>
+    <button class="lang-btn">GB EN</button>
+  </header>
+
+  <div class="main">
+    <img src="https://img.icons8.com/external-flat-juicy-fish/60/external-businessman-avatar-flat-juicy-fish.png" alt="Manager Icon">
+    <h1>Manager Portal</h1>
+    <p>Community management dashboard</p>
+
+    <div class="form-group">
+      <label for="manager-id">Manager ID</label>
+      <input type="text" id="manager-id" placeholder="e.g., MGR001">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="manager@community.com">
+    </div>
+
+    <div class="form-group">
+      <label for="property-name">Property Name</label>
+      <input type="text" id="property-name" placeholder="e.g., Sunshine Apartments">
+    </div>
+
+    <button class="btn-primary">Login</button>
+    <button class="btn-secondary">Register as Manager</button>
+  </div>
+
+  <nav>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/color/48/home.png" alt="Home">
+      Home
+    </div>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/ios-filled/50/microphone.png" alt="Voice">
+      Voice
+    </div>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/ios-glyphs/30/clipboard.png" alt="Track">
+      Track
+    </div>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/external-flat-juicy-fish/60/external-party-party-flat-juicy-fish.png" alt="Events">
+      Events
+    </div>
+    <div class="nav-item nav-active">
+      <img src="https://img.icons8.com/ios-filled/50/user.png" alt="Profile">
+      Profile
+    </div>
+  </nav>
+
+  <script>
+    // Simple JS can go here later for validation or actions
+    document.querySelector('.btn-primary').addEventListener('click', () => {
+      alert('Logging in as Manager...');
+    });
+  </script>
+</body>
+</html>

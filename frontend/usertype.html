@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select User Type - VoiceConnect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    header h2 {
+      font-size: 1.2rem;
+    }
+
+    .lang-btn {
+      background: white;
+      color: #333;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+    }
+
+    .main {
+      flex: 1;
+      background-color: white;
+      border-radius: 1rem;
+      margin: 1rem;
+      padding: 1rem;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .main h1 {
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    .main p {
+      text-align: center;
+      font-size: 1rem;
+      color: #666;
+    }
+
+    .role-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 1rem;
+      color: white;
+      cursor: pointer;
+    }
+
+    .role-card img {
+      width: 40px;
+      margin-bottom: 0.5rem;
+    }
+
+    .role-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .role-card p {
+      font-size: 0.9rem;
+      color: #f0f0f0;
+      text-align: center;
+    }
+
+    .resident { background: linear-gradient(to right, #667eea, #764ba2); }
+    .technician { background: linear-gradient(to right, #11998e, #38ef7d); }
+    .manager { background: linear-gradient(to right, #cb2d3e, #ef473a); }
+
+    nav {
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.6rem 0;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+
+    nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #333;
+    }
+
+    nav .nav-item img {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 4px;
+    }
+
+    .nav-active {
+      color: #2575fc;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .main h1 {
+        font-size: 1.4rem;
+      }
+      .role-card {
+        padding: 1rem 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Select User Type</h2>
+    <button class="lang-btn">GB EN</button>
+  </header>
+
+  <div class="main">
+    <h1>Welcome to VoiceConnect</h1>
+    <p>Choose your role to continue</p>
+
+    <div class="role-card resident">
+      <img src="https://img.icons8.com/color/48/home.png" alt="Resident">
+      <h3>Resident</h3>
+      <p>Report issues, track complaints, join events</p>
+    </div>
+
+    <div class="role-card technician">
+      <img src="https://img.icons8.com/ios-filled/50/wrench.png" alt="Technician">
+      <h3>Technician</h3>
+      <p>Receive assignments, update ticket status</p>
+    </div>
+
+    <div class="role-card manager">
+      <img src="https://img.icons8.com/color/48/businessman.png" alt="Community Manager">
+      <h3>Community Manager</h3>
+      <p>Manage events, view analytics, oversee community</p>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-item nav-active">
+      <img src="https://img.icons8.com/color/48/home.png" alt="Home">
+      Home
+    </div>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/ios-filled/50/microphone.png" alt="Voice">
+      Voice
+    </div>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/ios-glyphs/30/clipboard.png" alt="Track">
+      Track
+    </div>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/external-flat-juicy-fish/60/external-party-party-flat-juicy-fish.png" alt="Events">
+      Events
+    </div>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/ios-filled/50/user.png" alt="Profile">
+      Profile
+    </div>
+  </nav>
+</body>
+</html>

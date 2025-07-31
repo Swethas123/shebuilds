@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VoiceConnect Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .container img {
+      width: 60px;
+      margin-bottom: 1rem;
+    }
+
+    .container h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .container p {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .get-started-btn {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      color: white;
+      background-color: transparent;
+      border: 2px solid white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .get-started-btn:hover {
+      background-color: white;
+      color: #2575fc;
+    }
+
+    .lang-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: white;
+      color: #333;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    nav {
+      margin-top: auto;
+      background: white;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.6rem 0;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+
+    nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #333;
+    }
+
+    nav .nav-item img {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="lang-toggle">GB EN</div>
+  <div class="container">
+    <img src="https://img.icons8.com/ios-filled/50/microphone.png" alt="Mic icon">
+    <h1>VoiceConnect</h1>
+    <p>Your AI-Powered Community Assistant</p>
+    <button class="get-started-btn" onclick="location.href='usertype.html'">Get Started</button>
+  </div>
+
+  <nav>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/color/48/home.png" alt="Home">
+      Home
+    </div>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/ios-filled/50/microphone.png" alt="Voice">
+      Voice
+    </div>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/ios-glyphs/30/clipboard.png" alt="Track">
+      Track
+    </div>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/external-flat-juicy-fish/60/external-party-party-flat-juicy-fish.png" alt="Events">
+      Events
+    </div>
+    <div class="nav-item">
+      <img src="https://img.icons8.com/ios-filled/50/user.png" alt="Profile">
+      Profile
+    </div>
+  </nav>
+</body>
+</html>
