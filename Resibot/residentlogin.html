@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resident Login</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .container {
+      max-width: 420px;
+      background: white;
+      margin: auto;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .header {
+      background: #7b2ff7;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+
+    .header button, .lang {
+      background: #a066ff;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+    }
+
+    .content {
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .content h2 {
+      font-size: 1.6rem;
+      margin: 0.5rem 0;
+    }
+
+    .content p {
+      color: gray;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .emoji {
+      font-size: 3rem;
+    }
+
+    form input {
+      width: 100%;
+      padding: 0.9rem;
+      margin: 0.5rem 0;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .login-btn {
+      width: 100%;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      margin-top: 1rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .register-btn {
+      width: 100%;
+      background: #f0f0f0;
+      color: #333;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      margin-top: 1rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 1rem 0;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .bottom-nav div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #444;
+    }
+
+    .bottom-nav div i {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        margin-top: 4rem;
+      }
+    }
+  </style>
+  <script>
+    function handleLogin() {
+      const apt = document.getElementById("apartment").value;
+      const phone = document.getElementById("phone").value;
+
+      if (!apt || !phone) {
+        alert("Please enter both Apartment Number and Resident ID / Phone.");
+      } else {
+        alert("Login Successful!");
+        // Redirect logic here if needed
+      }
+    }
+
+    function handleRegister() {
+      alert("Redirecting to Registration Page...");
+      // Redirect to registration page
+    }
+  </script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="header">
+    <button onclick="history.back()">← Back</button>
+    <h3>Resident Login</h3>
+    <div class="lang">GB EN</div>
+  </div>
+
+  <div class="container">
+    <div class="content">
+      <div class="emoji">🏠</div>
+      <h2>Welcome Back</h2>
+      <p>Access your community assistant</p>
+
+      <form onsubmit="event.preventDefault(); handleLogin();">
+        <input type="text" id="apartment" placeholder="e.g., A-401" />
+        <input type="text" id="phone" placeholder="Your registered phone number" />
+        <button class="login-btn">Login</button>
+        <button class="register-btn" type="button" onclick="handleRegister()">Register New Resident</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div><i class="fas fa-home"></i>Home</div>
+    <div><i class="fas fa-microphone"></i>Voice</div>
+    <div><i class="fas fa-clipboard-list"></i>Track</div>
+    <div><i class="fas fa-calendar-alt"></i>Events</div>
+    <div><i class="fas fa-user"></i>Profile</div>
+  </div>
+</body>
+</html>
