@@ -30,11 +30,6 @@
       width: 100%;
     }
 
-    .container img {
-      width: 60px;
-      margin-bottom: 1rem;
-    }
-
     .container h1 {
       font-size: 2rem;
       margin-bottom: 0.5rem;
@@ -79,7 +74,7 @@
       width: 100%;
       display: flex;
       justify-content: space-around;
-      padding: 0.6rem 0;
+      padding: 1rem 0;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
     }
@@ -88,21 +83,29 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: 0.8rem;
+      font-size: 1.2rem;  /* Adjusting font size */
       color: #333;
     }
 
-    nav .nav-item img {
-      width: 24px;
-      height: 24px;
-      margin-bottom: 4px;
+    nav .nav-item i {
+      font-size: 36px;  /* Increased size for emoji icons */
+      margin-bottom: 8px;  /* Spacing between icon and text */
+      transition: transform 0.3s ease;
+    }
+
+    nav .nav-item:hover i {
+      transform: scale(1.1);  /* Slight scale effect on hover */
+    }
+
+    nav .nav-item:hover {
+      color: #2575fc;  /* Change text color on hover */
     }
   </style>
 </head>
 <body>
   <div class="lang-toggle">GB EN</div>
   <div class="container">
-    <img src="https://img.icons8.com/ios-filled/50/microphone.png" alt="Mic icon">
+    <i>🎤</i>
     <h1>VoiceConnect</h1>
     <p>Your AI-Powered Community Assistant</p>
     <button class="get-started-btn" onclick="location.href='usertype.html'">Get Started</button>
@@ -110,23 +113,23 @@
 
   <nav>
     <div class="nav-item">
-      <img src="https://img.icons8.com/color/48/home.png" alt="Home">
+      <i>🏠</i>
       Home
     </div>
     <div class="nav-item">
-      <img src="https://img.icons8.com/ios-filled/50/microphone.png" alt="Voice">
+      <i>🎤</i>
       Voice
     </div>
     <div class="nav-item">
-      <img src="https://img.icons8.com/ios-glyphs/30/clipboard.png" alt="Track">
+      <i>📋</i>
       Track
     </div>
     <div class="nav-item">
-      <img src="https://img.icons8.com/external-flat-juicy-fish/60/external-party-party-flat-juicy-fish.png" alt="Events">
+      <i>🎉</i>
       Events
     </div>
     <div class="nav-item">
-      <img src="https://img.icons8.com/ios-filled/50/user.png" alt="Profile">
+      <i>👤</i>
       Profile
     </div>
   </nav>
