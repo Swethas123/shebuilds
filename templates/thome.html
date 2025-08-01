@@ -197,17 +197,16 @@
         <div class="quick-btn mark">Mark Complete</div>
         <div class="quick-btn need">Need Parts</div>
         <div class="quick-btn escalate">Escalate Issue</div>
-        <div class="quick-btn voice">🎤 Voice Update</div>
+        <div class="quick-btn voice" onclick="triggerVoiceUpdate()">🎤 Voice Update</div>
       </div>
     </div>
   </div>
 
   <script>
-    // Example: You can link this with OmniDimension voice triggers
-    document.querySelector('.voice').addEventListener('click', () => {
+    function triggerVoiceUpdate() {
       alert("Voice Assistant Triggered for Ticket Update 🎙️");
-      // Connect to OmniDimension here
-    });
+      // Add OmniDimension or API trigger here
+    }
   </script>
 </body>
 </html>

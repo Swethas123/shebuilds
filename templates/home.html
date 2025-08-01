@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +23,7 @@
       justify-content: center;
       align-items: center;
       padding: 1rem;
+      position: relative;
     }
 
     .container {
@@ -83,32 +85,34 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: 1.2rem;  /* Adjusting font size */
+      font-size: 1.2rem;
       color: #333;
+      text-decoration: none;
     }
 
     nav .nav-item i {
-      font-size: 36px;  /* Increased size for emoji icons */
-      margin-bottom: 8px;  /* Spacing between icon and text */
+      font-size: 36px;
+      margin-bottom: 8px;
       transition: transform 0.3s ease;
     }
 
     nav .nav-item:hover i {
-      transform: scale(1.1);  /* Slight scale effect on hover */
+      transform: scale(1.1);
     }
 
     nav .nav-item:hover {
-      color: #2575fc;  /* Change text color on hover */
+      color: #2575fc;
     }
   </style>
 </head>
 <body>
   <div class="lang-toggle">GB EN</div>
+
   <div class="container">
     <i>🎤</i>
     <h1>VoiceConnect</h1>
     <p>Your AI-Powered Community Assistant</p>
-    <button class="get-started-btn" onclick="location.href='usertype.html'">Get Started</button>
+    <button class="get-started-btn" onclick="location.href='/resident'">Get Started</button>
   </div>
 
   <nav>
@@ -120,10 +124,10 @@
       <i>🎤</i>
       Voice
     </div>
-    <div class="nav-item">
+    <a href="/track-requests" class="nav-item">
       <i>📋</i>
       Track
-    </div>
+    </a>
     <div class="nav-item">
       <i>🎉</i>
       Events
@@ -133,5 +137,8 @@
       Profile
     </div>
   </nav>
+
+  <!-- ✅ OmniDimension Voice Assistant Script (Always load at the bottom for best performance) -->
+  <script id="omnidimension-web-widget" async src="https://backend.omnidim.io/web_widget.js?secret_key=4c1a8491af016e877c8da98cabe47505" ></script>
 </body>
 </html>

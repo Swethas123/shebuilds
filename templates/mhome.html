@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manager Dashboard</title>
+  <style>
+    /* [Same CSS as before — no changes needed] */
+    /* ... (unchanged styles) ... */
+  </style>
+</head>
+<body>
+
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <button class="lang-btn" onclick="switchLanguage()">GB EN</button>
+      <h2>Dashboard - Amit Singh</h2>
+      <small>MGR001 · Sunshine Apartments</small>
+    </div>
+
+    <div class="stats">
+      <div class="stat-box">
+        <h3>47</h3>
+        <p>Active Tickets</p>
+      </div>
+      <div class="stat-box">
+        <h3>12</h3>
+        <p>Pending Events</p>
+      </div>
+    </div>
+
+    <!-- ✅ Changed from alert to route navigation -->
+    <div class="section-btn" onclick="location.href='/addevent'">
+      <h4>🎉 Manage Events</h4>
+      <span>Create, schedule and track community events</span>
+    </div>
+
+    <div class="section-btn" onclick="location.href='/events'">
+      <h4>📊 Analytics Dashboard</h4>
+      <span>View community insights and satisfaction metrics</span>
+    </div>
+
+    <div class="section-btn" onclick="location.href='/tracking'">
+      <h4>🎟️ Ticket Management</h4>
+      <span>Oversee all resident complaints and requests</span>
+    </div>
+
+    <div class="recent-activity">
+      <h4>⚡ Recent Activity</h4>
+      <ul>
+        <li>New complaint: Water leakage A-401 (5 min ago)</li>
+        <li>Event feedback: Karaoke Night - 4.8★ rating</li>
+        <li>Technician Raj completed 3 tickets today</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function switchLanguage() {
+      alert("Switching Language...");
+      // Add your language toggle logic here
+    }
+  </script>
+
+</body>
+</html>

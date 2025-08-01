@@ -143,17 +143,17 @@
     }
 
     nav .nav-item i {
-      font-size: 36px;  /* Increased size for emoji icons */
-      margin-bottom: 8px;  /* Spacing between icon and text */
+      font-size: 36px;
+      margin-bottom: 8px;
       transition: transform 0.3s ease;
     }
 
     nav .nav-item:hover i {
-      transform: scale(1.1);  /* Slight scale effect on hover */
+      transform: scale(1.1);
     }
 
     nav .nav-item:hover {
-      color: #2575fc;  /* Change text color on hover */
+      color: #2575fc;
     }
 
     .nav-active {
@@ -210,7 +210,7 @@
       <i>🏠</i>
       Home
     </div>
-    <div class="nav-item">
+    <div class="nav-item" onclick="triggerVoice()">
       <i>🎤</i>
       Voice
     </div>
@@ -227,5 +227,13 @@
       Profile
     </div>
   </nav>
+
+  <script>
+    function triggerVoice() {
+      fetch("http://localhost:8000/trigger-voice", { method: "POST" })
+        .then(res => console.log("Voice triggered"))
+        .catch(err => console.error("Voice trigger error:", err));
+    }
+  </script>
 </body>
 </html>

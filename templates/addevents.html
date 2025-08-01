@@ -194,6 +194,21 @@
         padding: 10px;
       }
     }
+
+    .voice-launch {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .voice-launch button {
+      background-color: #4B2FCB;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -230,4 +245,27 @@
         <label for="location">Location</label>
         <select id="location">
           <option>Community Hall</option>
-          <opti
+          <option>Garden Area</option>
+          <option>Clubhouse</option>
+        </select>
+      </div>
+
+      <div class="action-buttons">
+        <button type="submit" class="create-btn">Create Event</button>
+        <button type="button" class="draft-btn">Save as Draft</button>
+      </div>
+    </form>
+
+    <div class="voice-launch">
+      <button onclick="launchVoiceAgent()">🎤 Use Voice Assistant</button>
+    </div>
+  </div>
+
+  <script>
+    function launchVoiceAgent() {
+      alert("Launching Voice Assistant...");
+      // Connect to OmniDimension Agent here later
+    }
+  </script>
+</body>
+</html>
