@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manager Login - VoiceConnect</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technician Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -33,7 +33,7 @@
       font-size: 1.2rem;
     }
 
-    .lang-btn, .back-btn {
+    .lang-btn {
       background: white;
       color: #333;
       padding: 0.4rem 0.8rem;
@@ -46,7 +46,10 @@
 
     .back-btn {
       background: transparent;
+      border: none;
       color: white;
+      font-size: 1rem;
+      cursor: pointer;
     }
 
     .main {
@@ -62,22 +65,6 @@
       text-align: center;
     }
 
-    .main img {
-      width: 60px;
-      margin-bottom: 1rem;
-    }
-
-    .main h1 {
-      font-size: 1.8rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .main p {
-      font-size: 1rem;
-      color: #555;
-      margin-bottom: 1.5rem;
-    }
-
     .form-group {
       width: 100%;
       max-width: 400px;
@@ -91,7 +78,8 @@
       margin-bottom: 0.3rem;
     }
 
-    .form-group input {
+    .form-group input,
+    .form-group select {
       width: 100%;
       padding: 0.7rem;
       border-radius: 10px;
@@ -99,7 +87,7 @@
       font-size: 1rem;
     }
 
-    .btn-primary, .btn-secondary {
+    .btn-primary {
       width: 100%;
       max-width: 400px;
       padding: 0.8rem;
@@ -109,16 +97,8 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-    }
-
-    .btn-primary {
       background: linear-gradient(to right, #6a11cb, #2575fc);
       color: white;
-    }
-
-    .btn-secondary {
-      background-color: #f1f1f1;
-      color: #333;
     }
 
     nav {
@@ -134,27 +114,14 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: 1.2rem;  /* Increased font size */
+      font-size: 0.8rem;
       color: #333;
+      cursor: pointer;
     }
 
     nav .nav-item i {
-      font-size: 36px;  /* Increased emoji icon size */
-      margin-bottom: 8px;  /* Spacing between icon and text */
-      transition: transform 0.3s ease;
-    }
-
-    nav .nav-item:hover i {
-      transform: scale(1.1);  /* Slight scale effect on hover */
-    }
-
-    nav .nav-item:hover {
-      color: #2575fc;  /* Change text color on hover */
-    }
-
-    .nav-active {
-      color: #2575fc;
-      font-weight: bold;
+      font-size: 24px;
+      margin-bottom: 4px;
     }
 
     @media (max-width: 600px) {
@@ -166,33 +133,49 @@
 </head>
 <body>
   <header>
-    <button class="back-btn">&#8592; Back</button>
-    <h2>Manager Login</h2>
+    <button class="back-btn">← Back</button>
+    <h2>Technician Registration</h2>
     <button class="lang-btn">GB EN</button>
   </header>
 
   <div class="main">
-    <i>👨‍💼</i>
-    <h1>Manager Portal</h1>
-    <p>Community management dashboard</p>
-
     <div class="form-group">
-      <label for="manager-id">Manager ID</label>
-      <input type="text" id="manager-id" placeholder="e.g., MGR001">
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" placeholder="Enter technician name">
     </div>
 
     <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="manager@community.com">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="+91 98765 43210">
     </div>
 
     <div class="form-group">
-      <label for="property-name">Property Name</label>
-      <input type="text" id="property-name" placeholder="e.g., Sunshine Apartments">
+      <label for="specialization">Specialization</label>
+      <select id="specialization">
+        <option>Plumbing</option>
+        <option>Electrician</option>
+        <option>Carpentry</option>
+        <option>AC Repair</option>
+        <option>Other</option>
+      </select>
     </div>
 
-    <button class="btn-primary">Login</button>
-    <button class="btn-secondary">Register as Manager</button>
+    <div class="form-group">
+      <label for="experience">Experience (Years)</label>
+      <input type="number" id="experience" placeholder="e.g., 5">
+    </div>
+
+    <div class="form-group">
+      <label for="shift">Working Shift</label>
+      <select id="shift">
+        <option>Morning (6 AM - 2 PM)</option>
+        <option>Evening (2 PM - 10 PM)</option>
+        <option>Night (10 PM - 6 AM)</option>
+        <option>Flexible</option>
+      </select>
+    </div>
+
+    <button class="btn-primary" onclick="registerTechnician()">Register</button>
   </div>
 
   <nav>
@@ -200,7 +183,7 @@
       <i>🏠</i>
       Home
     </div>
-    <div class="nav-item">
+    <div class="nav-item" onclick="launchVoiceAgent()">
       <i>🎤</i>
       Voice
     </div>
@@ -212,17 +195,27 @@
       <i>🎉</i>
       Events
     </div>
-    <div class="nav-item nav-active">
+    <div class="nav-item">
       <i>👤</i>
       Profile
     </div>
   </nav>
 
   <script>
-    // Simple JS can go here later for validation or actions
-    document.querySelector('.btn-primary').addEventListener('click', () => {
-      alert('Logging in as Manager...');
-    });
+    function registerTechnician() {
+      const name = document.getElementById('fullname').value;
+      const phone = document.getElementById('phone').value;
+      const spec = document.getElementById('specialization').value;
+      const exp = document.getElementById('experience').value;
+      const shift = document.getElementById('shift').value;
+
+      alert(`Technician Registered:\nName: ${name}\nPhone: ${phone}\nSpecialization: ${spec}\nExperience: ${exp} years\nShift: ${shift}`);
+    }
+
+    function launchVoiceAgent() {
+      alert("Launching Voice Assistant...");
+      // Connect your OmniDimension API here
+    }
   </script>
 </body>
 </html>

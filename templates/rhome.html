@@ -139,17 +139,17 @@
 
     <div class="announcement">🎉 Bollywood Karaoke Night – Tonight 7PM!</div>
 
-    <div class="card" onclick="goTo('voice')">
+    <div class="card" onclick="goTo('/voice')">
       <h3>🎙️ Voice Complaint</h3>
       <p>Report issues instantly with voice commands</p>
     </div>
 
-    <div class="card" onclick="goTo('track')">
+    <div class="card" onclick="goTo('/track')">
       <h3>📄 Track Requests</h3>
       <p>Check status of your tickets and requests</p>
     </div>
 
-    <div class="card" onclick="goTo('events')">
+    <div class="card" onclick="goTo('/events')">
       <h3>🎊 Community Events</h3>
       <p>Discover and join upcoming activities</p>
     </div>
@@ -162,9 +162,8 @@
       alert("Language switch not implemented yet!");
     }
 
-    function goTo(page) {
-      alert(`Navigate to ${page} page`);
-      // Here you can use: window.location.href = `/page.html`
+    function goTo(route) {
+      window.location.href = route;
     }
   </script>
 </body>

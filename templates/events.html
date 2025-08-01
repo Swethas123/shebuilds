@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* [All your existing styles stay the same] */
+    /* ... existing styles ... */
+
+    .voice-btn {
+      background: white;
+      color: #673AB7;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h2>← Event Management</h2>
+    <div style="display: flex; align-items: center;">
+      <div class="lang-switch">EN</div>
+      <div class="voice-btn" onclick="launchVoiceAgent()">🎤 Voice</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="btn-row">
+      <button class="btn add-btn">+ Add New Event</button>
+      <button class="btn ai-btn">🤖 AI Suggestions</button>
+    </div>
+
+    <div class="event-card orange">
+      <h3>🎤 Bollywood Karaoke Night</h3>
+      <small>Tonight • 7:00 PM • Rooftop</small>
+      <small>47 RSVPs • 5 Voice Votes</small>
+      <button>Edit</button>
+      <div class="rating">4.8★</div>
+    </div>
+
+    <div class="event-card green">
+      <h3>🏖️ Weekend Pool Party</h3>
+      <small>Saturday • 4:00 PM • Swimming Pool</small>
+      <small>23 RSVPs • Planning Phase</small>
+      <button>Promote</button>
+      <div class="rating">New</div>
+    </div>
+
+    <div class="poll">
+      <h4>📊 Community Voice Poll Results</h4>
+      <div class="poll-option">
+        <span>🍱 Food Festival</span> - 43 votes
+        <div class="poll-bar"><div class="poll-progress food"></div></div>
+      </div>
+      <div class="poll-option">
+        <span>🎬 Movie Night</span> - 23 votes
+        <div class="poll-bar"><div class="poll-progress movie"></div></div>
+      </div>
+      <button class="schedule-btn">📅 Schedule Food Festival</button>
+    </div>
+
+    <div class="ai-suggestion">
+      <h4>🤖 AI Event Suggestions</h4>
+      <p>"Since Diwali celebration was successful and you have terrace space, consider hosting a 'Rangoli Competition' this weekend with traditional music."</p>
+      <button>✨ Implement Suggestion</button>
+    </div>
+  </div>
+
+  <script>
+    function launchVoiceAgent() {
+      // Integrate OmniDimension voice launch logic here
+      alert("🎤 Voice Agent Activated (OmniDimension)");
+    }
+  </script>
+</body>
+</html>

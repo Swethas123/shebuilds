@@ -152,7 +152,7 @@
     <div class="header">
       <button onclick="goBack()">← Back</button>
       <h3 style="flex: 1; text-align: center;">Voice Complaint</h3>
-      <button class="lang-btn">🌐 EN</button>
+      <div onclick="launchVoiceAgent()" style="cursor: pointer; font-size: 18px;">🎤 Voice</div>
     </div>
 
     <div class="section-title">Choose Your Language</div>
@@ -190,6 +190,11 @@
     function startRecording() {
       alert("🎙️ Recording started...\nAI is listening for emotion & urgency.");
       // Add your voice API integration logic here
+    }
+
+    function launchVoiceAgent() {
+      alert("Launching OmniDimension Voice Assistant...");
+      // Placeholder for OmniDimension API connection
     }
   </script>
 </body>
