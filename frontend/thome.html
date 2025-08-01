@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Technician Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #8360c3, #2ebf91);
+      padding: 1rem;
+      color: #333;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: auto;
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .header {
+      background: #6A0DAD;
+      color: white;
+      border-radius: 15px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .header h2 {
+      margin-bottom: 0.3rem;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      background: white;
+      color: #6A0DAD;
+      padding: 3px 8px;
+      border-radius: 10px;
+      margin-left: 10px;
+    }
+
+    .card {
+      border: 1px solid #eee;
+      border-radius: 15px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .card h4 {
+      margin-bottom: 0.3rem;
+    }
+
+    .priority {
+      float: right;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      color: white;
+    }
+
+    .urgent {
+      background-color: #ff4d4f;
+    }
+
+    .high {
+      background-color: #facc15;
+      color: black;
+    }
+
+    .buttons {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .accept {
+      background-color: #10b981;
+      color: white;
+    }
+
+    .update {
+      background-color: #f59e0b;
+      color: white;
+    }
+
+    .progress {
+      background-color: #22c55e;
+      color: white;
+    }
+
+    .quick-actions {
+      margin-top: 1rem;
+    }
+
+    .quick-actions h4 {
+      margin-bottom: 0.5rem;
+    }
+
+    .quick-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
+      gap: 0.5rem;
+    }
+
+    .quick-btn {
+      padding: 0.6rem;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .mark {
+      background: #d1fae5;
+    }
+
+    .need {
+      background: #fef3c7;
+    }
+
+    .escalate {
+      background: #fee2e2;
+    }
+
+    .voice {
+      background: #e0e7ff;
+    }
+
+    @media (min-width: 600px) {
+      .container {
+        max-width: 600px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Welcome, Raj Kumar!</h2>
+      <p>TECH001 • Plumbing Specialist <span class="badge">GB EN</span></p>
+    </div>
+
+    <div class="status-card card" style="background-color: #047857; color: white;">
+      <h3>📋 Pending Assignments</h3>
+      <p style="font-size: 1.2rem;"><strong>5 Active Tickets</strong></p>
+      <p>2 High Priority • 3 Medium Priority</p>
+    </div>
+
+    <div class="ticket card">
+      <div>
+        <strong>#T2035</strong>
+        <span class="priority urgent">P1 - URGENT</span>
+      </div>
+      <h4>Water Leakage - A-401 Bathroom</h4>
+      <p>Assigned: 30 minutes ago</p>
+      <div class="buttons">
+        <button class="btn accept">Accept</button>
+        <button class="btn update">Update Status</button>
+      </div>
+    </div>
+
+    <div class="ticket card">
+      <div>
+        <strong>#T2033</strong>
+        <span class="priority high">P2 - HIGH</span>
+      </div>
+      <h4>Electrical Switch Issue - B-205</h4>
+      <p>Assigned: 2 hours ago</p>
+      <div class="buttons">
+        <button class="btn progress">✔ IN PROGRESS</button>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <h4>🔥 Quick Actions</h4>
+      <div class="quick-buttons">
+        <div class="quick-btn mark">Mark Complete</div>
+        <div class="quick-btn need">Need Parts</div>
+        <div class="quick-btn escalate">Escalate Issue</div>
+        <div class="quick-btn voice">🎤 Voice Update</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Example: You can link this with OmniDimension voice triggers
+    document.querySelector('.voice').addEventListener('click', () => {
+      alert("Voice Assistant Triggered for Ticket Update 🎙️");
+      // Connect to OmniDimension here
+    });
+  </script>
+</body>
+</html>

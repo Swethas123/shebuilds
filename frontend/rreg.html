@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resident Registration - VoiceConnect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    header h2 {
+      font-size: 1.2rem;
+    }
+
+    .lang-btn {
+      background: white;
+      color: #333;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+    }
+
+    .back-btn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .main {
+      flex: 1;
+      background-color: white;
+      border-radius: 1rem;
+      margin: 1rem;
+      padding: 2rem 1rem;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .form-group {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .btn-register {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.8rem;
+      margin-top: 1rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+    }
+
+    nav {
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.6rem 0;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+
+    nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #333;
+    }
+
+    nav .nav-item i {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 600px) {
+      .form-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="back-btn">← Back</button>
+    <h2>Resident Registration</h2>
+    <button class="lang-btn">GB EN</button>
+  </header>
+
+  <div class="main">
+    <div class="form-group">
+      <label for="full-name">Full Name</label>
+      <input type="text" id="full-name" placeholder="Enter your full name">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="apartment">Apartment</label>
+        <input type="text" id="apartment" placeholder="A-401">
+      </div>
+      <div class="form-group">
+        <label for="floor">Floor</label>
+        <input type="text" id="floor" placeholder="4th Floor">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="+91 98765 43210">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email (Optional)</label>
+      <input type="email" id="email" placeholder="your.email@gmail.com">
+    </div>
+
+    <div class="form-group">
+      <label for="language">Preferred Language</label>
+      <select id="language">
+        <option>English</option>
+        <option>Tamil</option>
+        <option>Hindi</option>
+        <option>Telugu</option>
+        <option>Kannada</option>
+      </select>
+    </div>
+
+    <button class="btn-register">Register</button>
+  </div>
+
+  <nav>
+    <div class="nav-item">
+      <i>🏠</i>
+      Home
+    </div>
+    <div class="nav-item">
+      <i>🎤</i>
+      Voice
+    </div>
+    <div class="nav-item">
+      <i>📋</i>
+      Track
+    </div>
+    <div class="nav-item">
+      <i>🎉</i>
+      Events
+    </div>
+    <div class="nav-item">
+      <i>👤</i>
+      Profile
+    </div>
+  </nav>
+
+  <script>
+    document.querySelector('.btn-register').addEventListener('click', () => {
+      alert("Registered successfully!");
+    });
+  </script>
+</body>
+</html>

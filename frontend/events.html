@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #673AB7, #512DA8);
+      color: #333;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: auto;
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      margin-bottom: 15px;
+    }
+
+    .header h2 {
+      font-size: 1.3rem;
+    }
+
+    .lang-switch {
+      background: white;
+      color: #673AB7;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0 20px;
+    }
+
+    .btn {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .add-btn {
+      background: #7C4DFF;
+      color: white;
+    }
+
+    .ai-btn {
+      background: #F1F1F1;
+      color: #673AB7;
+    }
+
+    .event-card {
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      color: white;
+      position: relative;
+    }
+
+    .event-card.orange {
+      background: #FFA000;
+    }
+
+    .event-card.green {
+      background: #26A69A;
+    }
+
+    .event-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .event-card small {
+      display: block;
+      margin-bottom: 6px;
+      opacity: 0.9;
+    }
+
+    .event-card button {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .rating {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .poll {
+      background: #F9F9F9;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .poll h4 {
+      margin-bottom: 10px;
+    }
+
+    .poll-bar {
+      height: 10px;
+      border-radius: 5px;
+      margin-top: 4px;
+      background: #ddd;
+      overflow: hidden;
+    }
+
+    .poll-option {
+      margin-bottom: 12px;
+    }
+
+    .poll-option span {
+      font-weight: 500;
+    }
+
+    .poll-progress.food {
+      background: #4CAF50;
+      width: 75%;
+      height: 100%;
+    }
+
+    .poll-progress.movie {
+      background: #FF9800;
+      width: 40%;
+      height: 100%;
+    }
+
+    .schedule-btn {
+      background: #3F51B5;
+      color: white;
+      width: 100%;
+      border: none;
+      padding: 10px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .ai-suggestion {
+      background: #EDE7F6;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+    }
+
+    .ai-suggestion p {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .ai-suggestion button {
+      background: #7C4DFF;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-weight: bold;
+      width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .ai-suggestion button:hover,
+    .schedule-btn:hover,
+    .add-btn:hover {
+      opacity: 0.9;
+    }
+
+    @media(min-width: 768px) {
+      .container {
+        max-width: 700px;
+      }
+
+      .btn-row {
+        justify-content: flex-start;
+        gap: 10px;
+      }
+
+      .btn {
+        padding: 12px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h2>← Event Management</h2>
+    <div class="lang-switch">EN</div>
+  </div>
+
+  <div class="container">
+    <div class="btn-row">
+      <button class="btn add-btn">+ Add New Event</button>
+      <button class="btn ai-btn">🤖 AI Suggestions</button>
+    </div>
+
+    <div class="event-card orange">
+      <h3>🎤 Bollywood Karaoke Night</h3>
+      <small>Tonight • 7:00 PM • Rooftop</small>
+      <small>47 RSVPs • 5 Voice Votes</small>
+      <button>Edit</button>
+      <div class="rating">4.8★</div>
+    </div>
+
+    <div class="event-card green">
+      <h3>🏖️ Weekend Pool Party</h3>
+      <small>Saturday • 4:00 PM • Swimming Pool</small>
+      <small>23 RSVPs • Planning Phase</small>
+      <button>Promote</button>
+      <div class="rating">New</div>
+    </div>
+
+    <div class="poll">
+      <h4>📊 Community Voice Poll Results</h4>
+      <div class="poll-option">
+        <span>🍱 Food Festival</span> - 43 votes
+        <div class="poll-bar"><div class="poll-progress food"></div></div>
+      </div>
+      <div class="poll-option">
+        <span>🎬 Movie Night</span> - 23 votes
+        <div class="poll-bar"><div class="poll-progress movie"></div></div>
+      </div>
+      <button class="schedule-btn">📅 Schedule Food Festival</button>
+    </div>
+
+    <div class="ai-suggestion">
+      <h4>🤖 AI Event Suggestions</h4>
+      <p>"Since Diwali celebration was successful and you have terrace space, consider hosting a 'Rangoli Competition' this weekend with traditional music."</p>
+      <button>✨ Implement Suggestion</button>
+    </div>
+  </div>
+
+</body>
+</html>

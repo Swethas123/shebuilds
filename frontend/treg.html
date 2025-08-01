@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technician Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    header h2 {
+      font-size: 1.2rem;
+    }
+
+    .lang-btn {
+      background: white;
+      color: #333;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+    }
+
+    .back-btn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .main {
+      flex: 1;
+      background-color: white;
+      border-radius: 1rem;
+      margin: 1rem;
+      padding: 2rem 1rem;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .form-group {
+      width: 100%;
+      max-width: 400px;
+      text-align: left;
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.8rem;
+      margin-top: 1rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+    }
+
+    nav {
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.6rem 0;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+
+    nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #333;
+    }
+
+    nav .nav-item i {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 600px) {
+      .main h1 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="back-btn">← Back</button>
+    <h2>Technician Registration</h2>
+    <button class="lang-btn">GB EN</button>
+  </header>
+
+  <div class="main">
+    <div class="form-group">
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" placeholder="Enter technician name">
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="+91 98765 43210">
+    </div>
+
+    <div class="form-group">
+      <label for="specialization">Specialization</label>
+      <select id="specialization">
+        <option>Plumbing</option>
+        <option>Electrician</option>
+        <option>Carpentry</option>
+        <option>AC Repair</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="experience">Experience (Years)</label>
+      <input type="number" id="experience" placeholder="e.g., 5">
+    </div>
+
+    <div class="form-group">
+      <label for="shift">Working Shift</label>
+      <select id="shift">
+        <option>Morning (6 AM - 2 PM)</option>
+        <option>Evening (2 PM - 10 PM)</option>
+        <option>Night (10 PM - 6 AM)</option>
+        <option>Flexible</option>
+      </select>
+    </div>
+
+    <button class="btn-primary" onclick="registerTechnician()">Register</button>
+  </div>
+
+  <nav>
+    <div class="nav-item">
+      <i>🏠</i>
+      Home
+    </div>
+    <div class="nav-item">
+      <i>🎤</i>
+      Voice
+    </div>
+    <div class="nav-item">
+      <i>📋</i>
+      Track
+    </div>
+    <div class="nav-item">
+      <i>🎉</i>
+      Events
+    </div>
+    <div class="nav-item">
+      <i>👤</i>
+      Profile
+    </div>
+  </nav>
+
+  <script>
+    function registerTechnician() {
+      const name = document.getElementById('fullname').value;
+      const phone = document.getElementById('phone').value;
+      const spec = document.getElementById('specialization').value;
+      const exp = document.getElementById('experience').value;
+      const shift = document.getElementById('shift').value;
+
+      alert(`Technician Registered:\nName: ${name}\nPhone: ${phone}\nSpecialization: ${spec}\nExperience: ${exp} years\nShift: ${shift}`);
+    }
+  </script>
+</body>
+</html>

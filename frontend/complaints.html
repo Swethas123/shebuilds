@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voice Complaint</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #7b5eea, #a067f9);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 20px;
+      padding: 25px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .header button {
+      background: #ececec;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .lang-btn {
+      background-color: #7b5eea;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .language-list {
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .language-option {
+      padding: 10px 15px;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 15px;
+    }
+
+    .language-option:hover,
+    .language-option.active {
+      border-color: #7b5eea;
+      background-color: #f3f1ff;
+    }
+
+    .language-option span {
+      font-weight: bold;
+      width: 25px;
+    }
+
+    .info-text {
+      margin: 15px 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .mic-button {
+      background-color: #e53935;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(229, 57, 53, 0.5);
+      animation: pulse 1.6s infinite;
+    }
+
+    .mic-button img {
+      width: 40px;
+      height: 40px;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 15px rgba(229, 57, 53, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+        max-width: 100%;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <button onclick="goBack()">← Back</button>
+      <h3 style="flex: 1; text-align: center;">Voice Complaint</h3>
+      <button class="lang-btn">🌐 EN</button>
+    </div>
+
+    <div class="section-title">Choose Your Language</div>
+    <div class="language-list">
+      <div class="language-option active" onclick="selectLanguage(this)">
+        <span>IN</span> हिंदी (Hindi)
+      </div>
+      <div class="language-option" onclick="selectLanguage(this)">
+        <span>GB</span> English
+      </div>
+      <div class="language-option" onclick="selectLanguage(this)">
+        <span>IN</span> தமிழ் (Tamil)
+      </div>
+    </div>
+
+    <div class="section-title">Tap & Speak Your Issue</div>
+    <p class="info-text">AI will automatically detect priority and emotion</p>
+
+    <div class="mic-button" onclick="startRecording()">
+      <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Mic Icon" />
+    </div>
+  </div>
+
+  <script>
+    function selectLanguage(el) {
+      document.querySelectorAll('.language-option').forEach(opt => opt.classList.remove('active'));
+      el.classList.add('active');
+      console.log("Selected Language:", el.innerText.trim());
+    }
+
+    function goBack() {
+      alert("Back to previous page");
+    }
+
+    function startRecording() {
+      alert("🎙️ Recording started...\nAI is listening for emotion & urgency.");
+      // Add your voice API integration logic here
+    }
+  </script>
+</body>
+</html>
