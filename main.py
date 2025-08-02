@@ -337,7 +337,7 @@ async def do_login(
     email: str = Form(...),
     password: str = Form(...)
 ):
-    hashed_password = hashlib.sha256(pssword.encode()).hexdigest()
+    hashed_password = hashlib.sha256(password.encode()).hexdigest()
     user = users_collection.find_one({"email": email, "password": hashed_password})
 
     if user:
