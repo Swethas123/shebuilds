@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🎙️ OmniConnect – Voice-Driven Virtual Community App
 
 ## 🚀 Overview
@@ -12,6 +13,23 @@ OmniConnect is a voice-driven virtual assistant web app designed for **community
 ---
 
 ## 🗂️ Project Structure
+=======
+# shebuilds
+# 🎙 OmniConnect – Voice-Driven Virtual Community App
+
+## 🚀 Overview
+
+OmniConnect is a voice-driven virtual assistant web app designed for *community engagement* and *resident support. It was built for the **SheBuilds Hackathon 2025* using:
+
+- *FastAPI* (Backend)
+- *HTML, CSS, JavaScript* (Frontend)
+- *OmniDimension Voice Assistant Widget* (Voice Interaction)
+- *VS Code* for development
+
+---
+
+## 🗂 Project Structure
+>>>>>>> 3337c984cddb84bc34f515759dd3430c17732150
 
 voiceapp/
 │
@@ -43,12 +61,21 @@ Edit
 
 ## 💡 Key Features
 
+<<<<<<< HEAD
 - 🎤 **Voice Complaint Registration**  
 - 👷 **Technician Dashboard** with issue tracking  
 - 🧠 **Emotion-aware Ticket Prioritization** using OmniDimension  
 - 🗳️ **Voice-based Poll Creation**
 - 📅 **Event Display + Feedback System**
 - 🌐 **Multi-language Complaint Translation (planned)**
+=======
+- 🎤 *Voice Complaint Registration*  
+- 👷 *Technician Dashboard* with issue tracking  
+- 🧠 *Emotion-aware Ticket Prioritization* using OmniDimension  
+- 🗳 *Voice-based Poll Creation*
+- 📅 *Event Display + Feedback System*
+- 🌐 *Multi-language Complaint Translation (planned)*
+>>>>>>> 3337c984cddb84bc34f515759dd3430c17732150
 
 ---
 
@@ -88,7 +115,11 @@ Edit
 <script id="omnidimension-web-widget" async
   src="https://backend.omnidim.io/web_widget.js?secret_key=4c1a8491af016e877c8da98cabe47505">
 </script>
+<<<<<<< HEAD
 🖼️ Frontend Pages
+=======
+🖼 Frontend Pages
+>>>>>>> 3337c984cddb84bc34f515759dd3430c17732150
 Page	Description
 index.html	Welcome screen with voice assistant
 complaints.html	Voice complaint registration
@@ -122,5 +153,8 @@ events.html	Community event page with feedback
 
 🏁 Final Goal
 A fully working voice-first community management web app that empowers residents to engage and report issues hands-free using natural language, while providing tools for community managers to respond intelligently.
+<<<<<<< HEAD
 
 # shebuilds
+=======
+>>>>>>> 3337c984cddb84bc34f515759dd3430c17732150
