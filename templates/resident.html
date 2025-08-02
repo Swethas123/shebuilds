@@ -251,19 +251,34 @@
     button:hover, .record-button:hover {
       background: #004d40;
     }
+    
+  .options {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .nav-button {
+    background: #0288d1;
+  }
+  .nav-button:hover {
+    background: #01579b;
+  }
+</style>
+
   </style>
 </head>
 <body>
   <div class="form-container">
     <h2>Report a Problem</h2>
     <form method="POST" action="/submit_problem">
-      <!-- <label for="hno">House Number</label>
-      <input type="text" id="hno" name="hno" required />
+      <!-- <label for="hno">House Number</label> -->
+      <!-- <input type="text" id="hno" name="hno" required />
 
       <label for="contact">Contact Number</label>
-      <input type="text" id="contact" name="contact" required /> -->
+      <input type="text" id="contact" name="contact" required />  -->
 
-      <label for="problemType">Problem Type</label>
+      <!--  <label for="problemType">Problem Type</label> -->
       <select id="problemType" name="problemType" required>
         <option value="">--Select--</option>
         <option value="Water leakage">Water leakage</option>
@@ -294,6 +309,11 @@
 
       <button type="submit">Submit</button>
     </form>
+    <div class="options">
+  <button class="record-button nav-button" onclick="window.location.href='/participate'">📅 View Events</button>
+  <button class="record-button nav-button" onclick="window.location.href='/feedback'">📝 Give Feedback</button>
+</div>
+
   </div>
 
   <script>
@@ -337,5 +357,6 @@
       }
     }
   </script>
+  <script id="omnidimension-web-widget" async src="https://backend.omnidim.io/web_widget.js?secret_key=4c1a8491af016e877c8da98cabe47505" ></script>
 </body>
-</html>
+</html> 

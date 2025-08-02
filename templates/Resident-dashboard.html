@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resident Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #f2f9ff;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+    }
+    .container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 30px;
+    }
+    .card {
+      width: 250px;
+      padding: 20px;
+      margin: 15px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #c7dff7;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Omni Assistant position */
+    .omni-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+<header>Resident Dashboard</header>
+
+<div class="container">
+  <div class="card">
+    <h3>Voice Complaint</h3>
+    <button onclick="startVoiceComplaint()">Start</button>
+  </div>
+  <div class="card">
+    <h3>Track Technician</h3>
+    <button onclick="alert('Feature Coming Soon!')">Track</button>
+  </div>
+  <div class="card">
+    <h3>Create Voice Poll</h3>
+    <button onclick="alert('Feature Coming Soon!')">Create</button>
+  </div>
+</div>
+
+<!-- Placeholder for voice output -->
+<div id="voice-output" style="padding: 20px; text-align: center; font-weight: bold;"></div>
+
+<!-- Omni Voice Assistant Embed -->
+<div class="omni-container">
+  <script
+    src="https://embed.omnidimension.io/agent.js"
+    data-agent-id="YOUR_AGENT_ID"
+    data-project-key="YOUR_PROJECT_KEY"
+    data-theme="light"
+    data-mic-button="true"
+    data-speech-output="true">
+  </script>
+</div>
+
+<script>
+  function startVoiceComplaint() {
+    document.getElementById("voice-output").innerText = "Listening for complaint... (Omni Assistant will capture)";
+  }
+</script>
+
+</body>
+</html>

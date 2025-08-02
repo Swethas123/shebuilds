@@ -98,11 +98,11 @@ from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-
-from deep_translator import GoogleTranslator
+# from googletrans import Translator
 # from pydantic import BaseModel
 import uuid
 import random
+from pydantic import BaseModel
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -129,6 +129,11 @@ client = MongoClient(
 db = client["shebuilds_db"]
 users_collection = db["users"]
 problems_collection = db["problems"]
+events_collection = db["events"]
+participation_collection = db["participate"]
+
+feedback_collection = db["feedback"]
+
 app = FastAPI()
  
 # Tell FastAPI to look in "templates/" for HTML files
@@ -215,6 +220,46 @@ community_events = []
 
 #     return RedirectResponse(url="/trackdetails", status_code=303)
 
+
+class Participation(BaseModel):
+    title: str
+    email: str
+    registered_on: str
+
+class Event(BaseModel):
+    title: str
+    description: str
+    start_date: str  # in format YYYY-MM-DD
+    end_date: str
+
+
+class Feedback(BaseModel):
+    name: str
+    message: str
+
+# API to store feedback
+@app.post("/submit_feedback")
+async def submit_feedback(feedback: Feedback):
+    feedback_collection.insert_one(feedback.dict())
+    return {"message": "Feedback stored"}
+
+
+
+@app.post("/register_event")
+def register_event(p: Participation):
+    participation_collection.insert_one(p.dict())
+    return {"message": "Registration successful"}
+
+@app.post("/add_event")
+async def add_event(event: Event):
+    events_collection.insert_one(event.dict())
+    return {"message": "Event added"}
+
+@app.get("/get_events")
+async def get_events():
+    events = list(events_collection.find({}, {"_id": 0}))
+    return events
+
 @app.post("/submit_problem")
 async def submit_problem(
     problemType: str = Form(...),
@@ -227,7 +272,8 @@ async def submit_problem(
 
     # Translate to English
     try:
-        engdescription = GoogleTranslator(source='auto', target='en').translate(description)
+        # translator = Translator()
+        engdescription= description
     except Exception as e:
         engdescription = description  # fallback if translation fails
 
@@ -256,6 +302,14 @@ async def root(request: Request):
 async def show_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request, "error": None})
 
+@app.get("/feedback", response_class=HTMLResponse)
+async def show_login(request: Request):
+    return templates.TemplateResponse("feedback.html", {"request": request, "error": None})
+
+
+@app.get("/participate", response_class=HTMLResponse)
+async def show_login(request: Request):
+    return templates.TemplateResponse("participate.html", {"request": request, "error": None})
 
 @app.get("/technician", response_class=HTMLResponse)
 async def show_login(request: Request):
@@ -283,7 +337,7 @@ async def do_login(
     email: str = Form(...),
     password: str = Form(...)
 ):
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+    hashed_password = hashlib.sha256(pssword.encode()).hexdigest()
     user = users_collection.find_one({"email": email, "password": hashed_password})
 
     if user:
