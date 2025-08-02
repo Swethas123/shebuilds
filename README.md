@@ -17,7 +17,7 @@ OmniConnect is a voice-driven virtual assistant web app designed for **community
 # shebuilds
 # 🎙 OmniConnect – Voice-Driven Virtual Community App
 
-## 🚀 Overview
+## Overview
 
 OmniConnect is a voice-driven virtual assistant web app designed for *community engagement* and *resident support. It was built for the **SheBuilds Hackathon 2025* using:
 
