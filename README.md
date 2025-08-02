@@ -1,7 +1,7 @@
 <<<<<<< HEAD
-# 🎙️ OmniConnect – Voice-Driven Virtual Community App
+# 🎙 OmniConnect – Voice-Driven Virtual Community App
 
-## 🚀 Overview
+##  Overview
 
 OmniConnect is a voice-driven virtual assistant web app designed for **community engagement** and **resident support**. It was built for the **SheBuilds Hackathon 2025** using:
 
@@ -12,12 +12,12 @@ OmniConnect is a voice-driven virtual assistant web app designed for **community
 
 ---
 
-## 🗂️ Project Structure
+## 🗂 Project Structure
 =======
 # shebuilds
 # 🎙 OmniConnect – Voice-Driven Virtual Community App
 
-## 🚀 Overview
+## Overview
 
 OmniConnect is a voice-driven virtual assistant web app designed for *community engagement* and *resident support. It was built for the **SheBuilds Hackathon 2025* using:
 
@@ -59,22 +59,22 @@ Edit
 
 ---
 
-## 💡 Key Features
+##  Key Features
 
 <<<<<<< HEAD
-- 🎤 **Voice Complaint Registration**  
-- 👷 **Technician Dashboard** with issue tracking  
-- 🧠 **Emotion-aware Ticket Prioritization** using OmniDimension  
-- 🗳️ **Voice-based Poll Creation**
-- 📅 **Event Display + Feedback System**
-- 🌐 **Multi-language Complaint Translation (planned)**
+-  **Voice Complaint Registration**  
+-  **Technician Dashboard** with issue tracking  
+-  **Emotion-aware Ticket Prioritization** using OmniDimension  
+-  **Voice-based Poll Creation**
+- **Event Display + Feedback System**
+-  **Multi-language Complaint Translation (planned)**
 =======
-- 🎤 *Voice Complaint Registration*  
-- 👷 *Technician Dashboard* with issue tracking  
-- 🧠 *Emotion-aware Ticket Prioritization* using OmniDimension  
-- 🗳 *Voice-based Poll Creation*
-- 📅 *Event Display + Feedback System*
-- 🌐 *Multi-language Complaint Translation (planned)*
+-  *Voice Complaint Registration*  
+-  *Technician Dashboard* with issue tracking  
+-  *Emotion-aware Ticket Prioritization* using OmniDimension  
+-  *Voice-based Poll Creation*
+-  *Event Display + Feedback System*
+-  *Multi-language Complaint Translation (planned)*
 >>>>>>> 3337c984cddb84bc34f515759dd3430c17732150
 
 ---
@@ -104,9 +104,9 @@ Copy
 Edit
 uvicorn main:app --reload
 This runs the app locally at:
-🔗 http://127.0.0.1:8000
+ http://127.0.0.1:8000
 
-🌐 Voice Assistant Integration
+ Voice Assistant Integration
 OmniDimension voice widget is embedded via:
 
 html
@@ -116,7 +116,7 @@ Edit
   src="https://backend.omnidim.io/web_widget.js?secret_key=4c1a8491af016e877c8da98cabe47505">
 </script>
 <<<<<<< HEAD
-🖼️ Frontend Pages
+🖼 Frontend Pages
 =======
 🖼 Frontend Pages
 >>>>>>> 3337c984cddb84bc34f515759dd3430c17732150
@@ -127,31 +127,31 @@ technician.html	Technician dashboard
 polls.html	Voice-based poll creation
 events.html	Community event page with feedback
 
-✅ Completed Milestones
-✅ FastAPI backend set up and running
+ Completed Milestones
+ FastAPI backend set up and running
 
-✅ Static + dynamic HTML templates created
+ Static + dynamic HTML templates created
 
-✅ Connected OmniDimension voice widget
+ Connected OmniDimension voice widget
 
-✅ Setup database interaction with db.py
+ Setup database interaction with db.py
 
-✅ Designed user flow for complaints and technician mapping
+ Designed user flow for complaints and technician mapping
 
-✅ Frontend + backend integrated
+ Frontend + backend integrated
 
-✅ Created colorful UI with responsive layout
+ Created colorful UI with responsive layout
 
-🔜 To-Do (Planned Enhancements)
-🌐 Add multilingual voice input support
+ To-Do (Planned Enhancements)
+ Add multilingual voice input support
 
-📊 Admin analytics dashboard
+ Admin analytics dashboard
 
-🔄 Auto follow-up with contextual memory
+ Auto follow-up with contextual memory
 
-📆 Google Calendar integration for events
+ Google Calendar integration for events
 
-🏁 Final Goal
+ Final Goal
 A fully working voice-first community management web app that empowers residents to engage and report issues hands-free using natural language, while providing tools for community managers to respond intelligently.
 <<<<<<< HEAD
 
