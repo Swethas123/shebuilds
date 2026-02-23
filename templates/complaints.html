@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Voice Complaint</title>
   <style>
     * {
@@ -27,7 +28,7 @@
       padding: 25px;
       width: 100%;
       max-width: 400px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
       text-align: center;
     }
 
@@ -124,10 +125,12 @@
         transform: scale(1);
         box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
       }
+
       70% {
         transform: scale(1.05);
         box-shadow: 0 0 0 15px rgba(229, 57, 53, 0);
       }
+
       100% {
         transform: scale(1);
         box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
@@ -147,6 +150,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="header">
@@ -177,25 +181,90 @@
   </div>
 
   <script>
+    let recognition;
+    let selectedLanguage = 'hi-IN'; // Default to Hindi as per UI initial state
+
     function selectLanguage(el) {
       document.querySelectorAll('.language-option').forEach(opt => opt.classList.remove('active'));
       el.classList.add('active');
-      console.log("Selected Language:", el.innerText.trim());
+      const langText = el.innerText.trim();
+      if (langText.includes("Hindi")) selectedLanguage = 'hi-IN';
+      else if (langText.includes("English")) selectedLanguage = 'en-US';
+      else if (langText.includes("Tamil")) selectedLanguage = 'ta-IN';
+      console.log("Selected Language:", selectedLanguage);
     }
 
     function goBack() {
-      alert("Back to previous page");
+      window.history.back();
     }
 
     function startRecording() {
-      alert("🎙️ Recording started...\nAI is listening for emotion & urgency.");
-      // Add your voice API integration logic here
+      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+        alert("Speech recognition not supported in your browser.");
+        return;
+      }
+
+      if (recognition) {
+        recognition.abort();
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.lang = selectedLanguage;
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = function () {
+        console.log("Mic recording started...");
+        const micBtn = document.querySelector('.mic-button');
+        micBtn.style.backgroundColor = "#4CAF50"; // Turn green while listening
+      };
+
+      recognition.onresult = async function (event) {
+        const transcript = event.results[0][0].transcript;
+        console.log("Captured:", transcript);
+
+        if (confirm("Captured: \"" + transcript + "\"\n\nWould you like to submit this as a complaint?")) {
+          // Send to backend
+          const response = await fetch('/voice-complaint', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+              'issue_type': 'Voice Reported',
+              'apartment_number': 'Auto-detected',
+              'description': transcript
+            })
+          });
+          if (response.ok) {
+            alert("Complaint submitted successfully!");
+            location.href = "/trackdetails";
+          } else {
+            alert("Failed to submit. Please try manual report.");
+          }
+        }
+      };
+
+      recognition.onerror = function (event) {
+        console.error("Error:", event.error);
+        alert("Recording error: " + event.error);
+        const micBtn = document.querySelector('.mic-button');
+        micBtn.style.backgroundColor = "#e53935";
+      };
+
+      recognition.onend = function () {
+        const micBtn = document.querySelector('.mic-button');
+        micBtn.style.backgroundColor = "#e53935";
+      };
+
+      recognition.start();
     }
 
     function launchVoiceAgent() {
       alert("Launching OmniDimension Voice Assistant...");
-      // Placeholder for OmniDimension API connection
+      // This is usually a widget, which is already present in resident.html
+      // If needed here, we'd add the script tag.
     }
   </script>
 </body>
+
 </html>

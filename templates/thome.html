@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +26,7 @@
       background: white;
       border-radius: 20px;
       padding: 1.5rem;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
 
     .header {
@@ -153,11 +154,12 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="header">
-      <h2>Welcome, Raj Kumar!</h2>
-      <p>TECH001 • Plumbing Specialist <span class="badge">GB EN</span></p>
+      <h2>Welcome, {{ user.name }}!</h2>
+      <p>{{ user.specialization }} Specialist <span class="badge">GB EN</span></p>
     </div>
 
     <div class="status-card card" style="background-color: #047857; color: white;">
@@ -166,30 +168,29 @@
       <p>2 High Priority • 3 Medium Priority</p>
     </div>
 
+    {% if complaints %}
+    {% for c in complaints %}
     <div class="ticket card">
       <div>
-        <strong>#T2035</strong>
-        <span class="priority urgent">P1 - URGENT</span>
+        <strong>#{{ c.ticket_number }}</strong>
+        <span class="priority urgent">{{ c.status|upper }}</span>
       </div>
-      <h4>Water Leakage - A-401 Bathroom</h4>
-      <p>Assigned: 30 minutes ago</p>
+      <h4>{{ c.category }}</h4>
+      <p><strong>Resident:</strong> {{ c.resident_name }}</p>
+      <p><strong>Address:</strong> {{ c.address }}</p>
+      <p><strong>Contact:</strong> {{ c.contact }}</p>
+      <p>{{ c.description }}</p>
+      <p><small>Days facing: {{ c.days_facing_issue }}</small></p>
       <div class="buttons">
-        <button class="btn accept">Accept</button>
-        <button class="btn update">Update Status</button>
+        <button class="btn accept" onclick="updateStatus({{ c.ticket_number }}, 'Approved')">Approve</button>
+        <button class="btn update" onclick="updateStatus({{ c.ticket_number }}, 'Started')">Start Work</button>
+        <button class="btn progress" onclick="updateStatus({{ c.ticket_number }}, 'Resolved')">Mark Resolved</button>
       </div>
     </div>
-
-    <div class="ticket card">
-      <div>
-        <strong>#T2033</strong>
-        <span class="priority high">P2 - HIGH</span>
-      </div>
-      <h4>Electrical Switch Issue - B-205</h4>
-      <p>Assigned: 2 hours ago</p>
-      <div class="buttons">
-        <button class="btn progress">✔ IN PROGRESS</button>
-      </div>
-    </div>
+    {% endfor %}
+    {% else %}
+    <p style="text-align:center;">No active tickets assigned.</p>
+    {% endif %}
 
     <div class="quick-actions">
       <h4>🔥 Quick Actions</h4>
@@ -203,10 +204,36 @@
   </div>
 
   <script>
+    async function updateStatus(ticketNumber, newStatus) {
+      try {
+        const response = await fetch('/update_ticket_status', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            ticket_number: ticketNumber,
+            status: newStatus
+          })
+        });
+
+        if (response.ok) {
+          // alert("Status updated to " + newStatus);
+          location.reload();
+        } else {
+          alert("Failed to update status.");
+        }
+      } catch (error) {
+        console.error("Error updating status:", error);
+        alert("An error occurred.");
+      }
+    }
+
     function triggerVoiceUpdate() {
       alert("Voice Assistant Triggered for Ticket Update 🎙️");
       // Add OmniDimension or API trigger here
     }
   </script>
 </body>
+
 </html>

@@ -93,7 +93,7 @@
 
 
 import hashlib
-import certifi
+# import certifi
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -123,9 +123,16 @@ from pymongo.server_api import ServerApi
 USER_EMAIL=''
 client = MongoClient(
     "mongodb+srv://swethas2005:Hello2005@cluster0.tbxmbbi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    server_api=ServerApi('1'),
     tls=True,
-    tlsCAFile=certifi.where()
+    tlsAllowInvalidCertificates=True
 )
+
+try:
+    client.admin.command('ping')
+    print("DEBUG: MongoDB Connected Successfully!")
+except Exception as e:
+    print(f"DEBUG: MongoDB Connection Failed: {e}")
 db = client["shebuilds_db"]
 users_collection = db["users"]
 problems_collection = db["problems"]
@@ -150,28 +157,28 @@ community_events = []
 # -------------------------------
 # Models
 # -------------------------------
-# class Technician(BaseModel):
-#     name: str
-#     phone: str
-#     skill: str
+class Technician(BaseModel):
+    name: str
+    phone: str
+    skill: str
 
-# class Resident(BaseModel):
-#     name: str
-#     apartment: str
-#     phone: str
+class Resident(BaseModel):
+    name: str
+    apartment: str
+    phone: str
 
-# class Complaint(BaseModel):
-#     issue_type: str
-#     apartment_number: str
-#     description: str
-#     status: str = "Pending"
-#     ticket_id: str = None
+class Complaint(BaseModel):
+    issue_type: str
+    apartment_number: str
+    description: str
+    status: str = "Pending"
+    ticket_id: str = None
 
-# class Event(BaseModel):
-#     name: str
-#     location: str
-#     time: str
-#     status: str
+class EventModel(BaseModel): # Renamed to avoid conflict with Event class below
+    name: str
+    location: str
+    time: str
+    status: str
 
 # -------------------------------
 # Routes
@@ -201,9 +208,9 @@ community_events = []
 #     description: str = Form(...)
 # ):
 #     global USER_EMAIL
-
+#
 #     ticket_number = random.randint(10000, 99999)
-
+#
 #     data = {
 #         "user_email": USER_EMAIL,
 #         "ticket_number": ticket_number,
@@ -237,11 +244,33 @@ class Feedback(BaseModel):
     name: str
     message: str
 
+class StatusUpdate(BaseModel):
+    ticket_number: int
+    status: str
+
 # API to store feedback
 @app.post("/submit_feedback")
 async def submit_feedback(feedback: Feedback):
     feedback_collection.insert_one(feedback.dict())
     return {"message": "Feedback stored"}
+
+@app.post("/update_ticket_status")
+async def update_ticket_status(update: StatusUpdate):
+    problems_collection.update_one(
+        {"ticket_number": update.ticket_number},
+        {"$set": {"status": update.status}}
+    )
+    return {"message": "Status updated successfully"}
+
+class DeleteRequest(BaseModel):
+    ticket_number: int
+
+@app.post("/delete_problem")
+async def delete_problem(req: DeleteRequest):
+    result = problems_collection.delete_one({"ticket_number": req.ticket_number})
+    if result.deleted_count > 0:
+        return {"message": "Ticket deleted successfully"}
+    return JSONResponse(status_code=404, content={"message": "Ticket not found"})
 
 
 
@@ -262,11 +291,15 @@ async def get_events():
 
 @app.post("/submit_problem")
 async def submit_problem(
+    hno: str = Form(None),
+    contact: str = Form(None),
     problemType: str = Form(...),
     days: int = Form(...),
     description: str = Form(...)
 ):
     global USER_EMAIL
+    print(f"DEBUG: submit_problem called. USER_EMAIL={USER_EMAIL}")
+    print(f"DEBUG: Form Data - hno={hno}, contact={contact}, type={problemType}, days={days}, desc={description}")
 
     ticket_number = random.randint(10000, 99999)
 
@@ -275,7 +308,19 @@ async def submit_problem(
         # translator = Translator()
         engdescription= description
     except Exception as e:
+        print(f"DEBUG: Translation error: {e}")
         engdescription = description  # fallback if translation fails
+
+    # Fetch Resident Details for Address
+    user = users_collection.find_one({"email": USER_EMAIL})
+    print(f"DEBUG: User found: {user}")
+    
+    # Use submitted House Number if available, otherwise look up
+    address = hno if hno else "Address not found"
+    
+    # Append block info from DB if available
+    if user and user.get("block") and "block" not in address.lower():
+         address = f"Block {user['block']}, {address}"
 
     data = {
         "user_email": USER_EMAIL,
@@ -283,11 +328,15 @@ async def submit_problem(
         "category": problemType,
         "days_facing_issue": days,
         "description": description,  # translated version
-        "engdescription":engdescription,
+        "engdescription": engdescription,
         "status": "pending",
-        "handleby": None
+        "handleby": None,
+        "address": address,
+        "contact": contact,
+        "hno": hno,
+        "resident_name": user.get("name", "Unknown Resident") if user else "Unknown"
     }
-
+    print(f"DEBUG: Inserting data: {data}")
     problems_collection.insert_one(data)
 
     return RedirectResponse(url="/trackdetails", status_code=303)
@@ -303,32 +352,17 @@ async def show_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request, "error": None})
 
 @app.get("/feedback", response_class=HTMLResponse)
-async def show_login(request: Request):
+async def feedback_page(request: Request):
     return templates.TemplateResponse("feedback.html", {"request": request, "error": None})
 
-
 @app.get("/participate", response_class=HTMLResponse)
-async def show_login(request: Request):
+async def participate_page(request: Request):
     return templates.TemplateResponse("participate.html", {"request": request, "error": None})
 
-@app.get("/technician", response_class=HTMLResponse)
-async def show_login(request: Request):
-    return templates.TemplateResponse("technician.html", {"request": request, "error": None})
-
-
-@app.get("/resident", response_class=HTMLResponse)
-async def show_login(request: Request):
-    return templates.TemplateResponse("resident.html", {"request": request, "error": None})
-
-
-@app.get("/manager", response_class=HTMLResponse)
-async def show_login(request: Request):
-    return templates.TemplateResponse("manager.html", {"request": request, "error": None})
-
-
 @app.get("/register", response_class=HTMLResponse)
-async def show_login(request: Request):
+async def register_page(request: Request):
     return templates.TemplateResponse("register.html", {"request": request, "error": None})
+
 
 
 @app.post("/login", response_class=HTMLResponse)
@@ -349,13 +383,13 @@ async def do_login(
         USER_EMAIL=user.get("email","")
         user_type = user.get("userType", "").lower()
         if user_type == "technician":
-            return RedirectResponse(url="/technician", status_code=302)
+            return RedirectResponse(url="/technician", status_code=303)
         elif user_type == "resident":
-            return RedirectResponse(url="/trackdetails", status_code=302)
+            return RedirectResponse(url="/trackdetails", status_code=303)
         elif user_type == "manager":
-            return RedirectResponse(url="/manager", status_code=302)
+            return RedirectResponse(url="/manager", status_code=303)
         else:
-            return RedirectResponse(url="/", status_code=302)
+            return RedirectResponse(url="/", status_code=303)
     else:
         return templates.TemplateResponse("login.html", {
             "request": request,
@@ -419,7 +453,7 @@ async def register_user(
 
 @app.get("/resident", response_class=HTMLResponse)
 async def resident_page(request: Request):
-    return templates.TemplateResponse("rhome.html", {"request": request})
+    return templates.TemplateResponse("resident.html", {"request": request})
 
 @app.post("/voice-complaint")
 async def voice_complaint(
@@ -455,15 +489,74 @@ async def track_requests(request: Request):
 
 @app.get("/technician", response_class=HTMLResponse)
 async def technician_dashboard(request: Request):
-    return templates.TemplateResponse("thome.html", {"request": request, "complaints": complaints})
+    global USER_EMAIL
+    try:
+        # Fetch logged-in technician details
+        tech_user = users_collection.find_one({"email": USER_EMAIL})
+        if not tech_user:
+             tech_user = {"name": "Technician", "specialization": "General"}
+
+        problems = list(problems_collection.find({}, {"_id": 0}))
+        print(f"DEBUG: Found {len(problems)} problems.")
+        for p in problems:
+            print(f"DEBUG: Problem: {p}")
+        
+        return templates.TemplateResponse("thome.html", {
+            "request": request, 
+            "complaints": problems,
+            "user": tech_user
+        })
+    except Exception as e:
+        print(f"ERROR in /technician: {e}")
+        return templates.TemplateResponse("thome.html", {"request": request, "complaints": [], "user": {}})
 
 @app.get("/manager", response_class=HTMLResponse)
 async def manager_dashboard(request: Request):
-    return templates.TemplateResponse("mhome.html", {"request": request, "events": community_events})
+    try:
+        # Fetch Real Stats
+        active_tickets = problems_collection.count_documents({"status": {"$ne": "resolved"}})
+        pending_events = events_collection.count_documents({}) # Or filter by date > today
+        
+        # Recent Activity (last 3 problems)
+        recent_problems = list(problems_collection.find().sort("_id", -1).limit(3))
+        recent_activity = []
+        for p in recent_problems:
+            recent_activity.append(f"New complaint: {p.get('category')} {p.get('hno', '')} ({p.get('status')})")
+        
+        if not recent_activity:
+            recent_activity = ["No recent activity found."]
+
+        return templates.TemplateResponse("mhome.html", {
+            "request": request, 
+            "active_tickets": active_tickets,
+            "pending_events": pending_events,
+            "recent_activity": recent_activity
+        })
+    except Exception as e:
+        print(f"ERROR in /manager: {e}")
+        return templates.TemplateResponse("mhome.html", {
+            "request": request, 
+            "active_tickets": 0, 
+            "pending_events": 0,
+            "recent_activity": ["Error loading activity."]
+        })
+
+@app.get("/addevent", response_class=HTMLResponse)
+async def addevent_page(request: Request):
+    return templates.TemplateResponse("addevents.html", {"request": request})
+
+@app.get("/complaints", response_class=HTMLResponse)
+async def complaints_page(request: Request):
+    return templates.TemplateResponse("complaints.html", {"request": request})
+
+@app.get("/tracking", response_class=HTMLResponse)
+async def tracking_page_alias(request: Request):
+    return RedirectResponse(url="/trackdetails")
 
 @app.get("/events", response_class=HTMLResponse)
 async def events_page(request: Request):
-    return templates.TemplateResponse("events.html", {"request": request, "events": community_events})
+    events = list(events_collection.find({}, {"_id": 0}))
+    return templates.TemplateResponse("events.html", {"request": request, "events": events})
 
 @app.get("/treg", response_class=HTMLResponse)
 async def technician_register_form(request: Request):
@@ -478,28 +571,47 @@ async def register_technician(
     technicians.append(Technician(name=name, phone=phone, skill=skill))
     return RedirectResponse(url="/technician", status_code=302)
 
-@app.get("/rreg", response_class=HTMLResponse)
-async def resident_register_form(request: Request):
-    return templates.TemplateResponse("rreg.html", {"request": request})
+@app.get("/participate", response_class=HTMLResponse)
+async def participate_page(request: Request):
+    return templates.TemplateResponse("participate.html", {"request": request})
 
-@app.post("/rreg")
-async def register_resident(
-    name: str = Form(...),
-    apartment: str = Form(...),
-    phone: str = Form(...)
-):
-    residents.append(Resident(name=name, apartment=apartment, phone=phone))
-    return RedirectResponse(url="/resident", status_code=302)
+@app.get("/get_events")
+async def get_events():
+    events = list(events_collection.find({}, {"_id": 0}))
+    return JSONResponse(content=events)
+
+@app.post("/register_event")
+async def register_event(data: dict):
+    # registrations_collection is not yet defined in db.py?
+    # I will insert into a new collection 'registrations'
+    db.registrations.insert_one(data)
+    return JSONResponse(content={"message": "Registered successfully"})
 
 @app.post("/create-event")
 async def create_event(
     name: str = Form(...),
     location: str = Form(...),
+    date: str = Form(...),
     time: str = Form(...),
-    status: str = Form(...)
+    description: str = Form(None)
 ):
-    community_events.append(Event(name=name, location=location, time=time, status=status))
-    return RedirectResponse(url="/events", status_code=302)
+    event_data = {
+        "title": name,
+        "description": description or "No description provided",
+        "start_date": f"{date} {time}",
+        "end_date": f"{date} {time}",
+        "location": location,
+        "status": "Upcoming"
+    }
+    
+    print(f"DEBUG: Creating event in MongoDB: {event_data}")
+    events_collection.insert_one(event_data)
+    
+    # Also add to in-memory list for legacy support if needed, but DB is primary
+    community_events.append(EventModel(name=name, location=location, time=time, status="Upcoming"))
+    
+    return RedirectResponse(url="/events", status_code=303)
+
 
 
 

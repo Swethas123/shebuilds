@@ -1,8 +1,9 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Resident Problem Report</title>
   <style>
     body {
@@ -13,31 +14,40 @@
       align-items: center;
       min-height: 100vh;
     }
+
     .form-container {
       background: #fff;
       padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
       width: 400px;
     }
+
     h2 {
       margin-bottom: 20px;
       text-align: center;
       color: #00796b;
     }
+
     label {
       display: block;
       margin-bottom: 6px;
       font-weight: bold;
     }
-    select, input[type="text"], textarea {
+
+    select,
+    input[type="text"],
+    input[type="number"],
+    textarea {
       width: 100%;
       padding: 10px;
       margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 6px;
     }
-    button {
+
+    button,
+    .record-button {
       width: 100%;
       padding: 12px;
       background: #00796b;
@@ -46,12 +56,31 @@
       border-radius: 6px;
       font-size: 16px;
       cursor: pointer;
+      margin-top: 5px;
     }
-    button:hover {
+
+    button:hover,
+    .record-button:hover {
       background: #004d40;
+    }
+
+    .options {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nav-button {
+      background: #0288d1;
+    }
+
+    .nav-button:hover {
+      background: #01579b;
     }
   </style>
 </head>
+
 <body>
   <div class="form-container">
     <h2>Report a Problem</h2>
@@ -64,225 +93,10 @@
 
       <label for="problemType">Problem Type</label>
       <select id="problemType" name="problemType" required>
-        <option value="">--Select--</option>
-        <option value="Water leakage">Water leakage</option>
-        <option value="Power failure">Power failure</option>
-        <option value="Garbage issue">Garbage issue</option>
-        <option value="Pest control">Pest control</option>
-        <option value="Other">Other</option>
-      </select>
-
-      <label for="description">Problem Description</label>
-      <textarea id="description" name="description" rows="4" required></textarea>
-
-      <button type="submit">Submit</button>
-    </form>
-  </div>
-</body>
-</html> -->
-
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Resident Problem Report</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #e0f7fa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .form-container {
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-      width: 400px;
-    }
-    h2 {
-      margin-bottom: 20px;
-      text-align: center;
-      color: #00796b;
-    }
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-    }
-    select, input[type="text"], input[type="number"], textarea {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button, .record-button {
-      width: 100%;
-      padding: 12px;
-      background: #00796b;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 5px;
-    }
-    button:hover, .record-button:hover {
-      background: #004d40;
-    }
-  </style>
-</head>
-<body>
-  <div class="form-container">
-    <h2>Report a Problem</h2>
-    <form method="POST" action="/submit_problem">
-      <label for="hno">House Number</label>
-      <input type="text" id="hno" name="hno" required />
-
-      <label for="contact">Contact Number</label>
-      <input type="text" id="contact" name="contact" required />
-
-      <label for="problemType">Problem Type</label>
-      <select id="problemType" name="problemType" required>
-        <option value="">--Select--</option>
-        <option value="Water leakage">Water leakage</option>
-        <option value="Power failure">Power failure</option>
-        <option value="Garbage issue">Garbage issue</option>
-        <option value="Pest control">Pest control</option>
-        <option value="Other">Other</option>
-      </select>
-
-      <label for="days">Number of Days Facing the Issue</label>
-      <input type="number" id="days" name="days" min="0" required />
-
-      <label for="description">Problem Description</label>
-      <textarea id="description" name="description" rows="4" required></textarea>
-      <button type="button" class="record-button" onclick="startRecording()">🎙️ Speak to Fill Description</button>
-
-      <button type="submit">Submit</button>
-    </form>
-  </div>
-
-  <script>
-    function startRecording() {
-      const descriptionField = document.getElementById("description");
-
-      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-        alert("Speech recognition not supported in your browser.");
-        return;
-      }
-
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-
-      recognition.start();
-
-      recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        descriptionField.value += transcript + ' ';
-      };
-
-      recognition.onerror = function(event) {
-        alert("Error during speech recognition: " + event.error);
-      };
-    }
-  </script>
-</body>
-</html> -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Resident Problem Report</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #e0f7fa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .form-container {
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-      width: 400px;
-    }
-    h2 {
-      margin-bottom: 20px;
-      text-align: center;
-      color: #00796b;
-    }
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-    }
-    select, input[type="text"], input[type="number"], textarea {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button, .record-button {
-      width: 100%;
-      padding: 12px;
-      background: #00796b;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 5px;
-    }
-    button:hover, .record-button:hover {
-      background: #004d40;
-    }
-    
-  .options {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .nav-button {
-    background: #0288d1;
-  }
-  .nav-button:hover {
-    background: #01579b;
-  }
-</style>
-
-  </style>
-</head>
-<body>
-  <div class="form-container">
-    <h2>Report a Problem</h2>
-    <form method="POST" action="/submit_problem">
-      <!-- <label for="hno">House Number</label> -->
-      <!-- <input type="text" id="hno" name="hno" required />
-
-      <label for="contact">Contact Number</label>
-      <input type="text" id="contact" name="contact" required />  -->
-
-      <!--  <label for="problemType">Problem Type</label> -->
-      <select id="problemType" name="problemType" required>
-        <option value="">--Select--</option>
-        <option value="Water leakage">Water leakage</option>
-        <option value="Power failure">Power failure</option>
+        <option value="">--Select Technician/Problem--</option>
+        <option value="Plumber">Plumber (Water leakage, etc.)</option>
+        <option value="Electrician">Electrician (Power failure, etc.)</option>
+        <option value="Carpenter">Carpenter (Furniture repair, etc.)</option>
         <option value="Garbage issue">Garbage issue</option>
         <option value="Pest control">Pest control</option>
         <option value="Other">Other</option>
@@ -306,44 +120,105 @@
       <label for="description">Problem Description</label>
       <textarea id="description" name="description" rows="4" required></textarea>
       <button type="button" class="record-button" onclick="startRecording()">🎙️ Speak to Fill Description</button>
+      <p id="voice-status" style="margin-top: 5px; font-style: italic; color: #555;"></p>
 
       <button type="submit">Submit</button>
     </form>
     <div class="options">
-  <button class="record-button nav-button" onclick="window.location.href='/participate'">📅 View Events</button>
-  <button class="record-button nav-button" onclick="window.location.href='/feedback'">📝 Give Feedback</button>
-</div>
+      <button class="record-button nav-button" onclick="window.location.href='/participate'">📅 View Events</button>
+      <button class="record-button nav-button" onclick="window.location.href='/feedback'">📝 Give Feedback</button>
+    </div>
 
   </div>
 
   <script>
-    async function startRecording() {
+    let recognition;
+
+    function startRecording() {
       const language = document.getElementById("language").value;
       const descriptionField = document.getElementById("description");
+      const statusField = document.getElementById("voice-status");
 
       if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-        alert("Speech recognition not supported in your browser.");
+        statusField.textContent = "Speech recognition not supported in your browser.";
+        statusField.style.color = "red";
         return;
       }
 
+      // Stop any existing recognition
+      if (recognition) {
+        recognition.abort();
+      }
+
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
+      recognition = new SpeechRecognition();
       recognition.lang = language;
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 
+      recognition.onstart = function () {
+        console.log("Speech recognition started");
+        statusField.textContent = "Listening... Speak now.";
+        statusField.style.color = "#00796b";
+      };
+
+      recognition.onresult = async function (event) {
+        console.log("Speech recognition result received");
+        let transcript = "";
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            transcript += event.results[i][0].transcript;
+          }
+        }
+
+        if (transcript) {
+          console.log("Transcript: " + transcript);
+
+          if (language !== 'en-US') {
+            statusField.textContent = "Translating speech...";
+            statusField.style.color = "#0288d1";
+            const translated = await translateText(transcript, language);
+            descriptionField.value += (descriptionField.value ? "\n" : "") + `[Original]: ${transcript}\n[Translated]: ${translated} `;
+          } else {
+            descriptionField.value += transcript + ' ';
+          }
+
+          statusField.textContent = "Speech captured!";
+          statusField.style.color = "#00796b";
+
+          // Clear status after a short delay
+          setTimeout(() => {
+            if (statusField.textContent === "Speech captured!") {
+              statusField.textContent = "";
+            }
+          }, 2000);
+        }
+      };
+
+      recognition.onerror = function (event) {
+        console.error("Speech recognition error: " + event.error);
+        if (event.error === 'no-speech') {
+          statusField.textContent = "No speech detected. Please try again.";
+          statusField.style.color = "#e65100";
+        } else if (event.error === 'not-allowed') {
+          statusField.textContent = "Microphone access denied.";
+          statusField.style.color = "red";
+        } else if (event.error === 'aborted') {
+          // Do nothing if it was manually aborted
+        } else {
+          statusField.textContent = "Error: " + event.error;
+          statusField.style.color = "red";
+        }
+      };
+
+      recognition.onend = function () {
+        console.log("Speech recognition ended");
+        if (statusField.textContent === "Listening... Speak now.") {
+          statusField.textContent = "";
+        }
+      };
+
       recognition.start();
-
-      recognition.onresult = async function(event) {
-        const transcript = event.results[0][0].transcript;
-        // const translated = await translateText(transcript, language);
-
-        descriptionField.value += `${transcript}\n`;
-      };
-
-      recognition.onerror = function(event) {
-        alert("Speech recognition error: " + event.error);
-      };
     }
 
     async function translateText(text, fromLang) {
@@ -357,6 +232,8 @@
       }
     }
   </script>
-  <script id="omnidimension-web-widget" async src="https://backend.omnidim.io/web_widget.js?secret_key=4c1a8491af016e877c8da98cabe47505" ></script>
+  <script id="omnidimension-web-widget" async
+    src="https://backend.omnidim.io/web_widget.js?secret_key=4c1a8491af016e877c8da98cabe47505"></script>
 </body>
-</html> 
+
+</html>

@@ -197,9 +197,10 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Requests</title>
   <style>
     body {
@@ -208,11 +209,13 @@
       margin: 0;
       padding: 0;
     }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
+
     .header {
       display: flex;
       align-items: center;
@@ -223,15 +226,18 @@
       border-radius: 10px;
       margin-bottom: 30px;
     }
+
     .header h1 {
       font-size: 1.5em;
       margin: 0;
     }
+
     .requests-section {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
+
     .request-card {
       background-color: #fff;
       border-radius: 10px;
@@ -241,38 +247,74 @@
       padding: 20px;
       transition: transform 0.3s ease;
     }
+
     .request-card:hover {
       transform: scale(1.03);
     }
+
     .request-card .status {
       display: flex;
       justify-content: space-between;
       font-size: 1.1em;
       margin-bottom: 15px;
     }
+
     .request-card .status span {
       padding: 5px 10px;
       border-radius: 5px;
     }
-    .status .P1 { background-color: #e74c3c; color: white; }
-    .status .P2 { background-color: #f39c12; color: white; }
-    .status .P3 { background-color: #3498db; color: white; }
-    .status .resolved { background-color: #2ecc71; color: white; }
-    .status .in-progress { background-color: #f1c40f; color: white; }
+
+    .status .P1 {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .status .P2 {
+      background-color: #f39c12;
+      color: white;
+    }
+
+    .status .P3 {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .status .resolved {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .status .in-progress {
+      background-color: #f1c40f;
+      color: white;
+    }
+
     .ticket-details h2 {
       font-size: 1.2em;
       font-weight: bold;
     }
+
     .footer {
       text-align: center;
       margin-top: 30px;
       color: #7f8c8d;
     }
+
     @media (max-width: 768px) {
-      .header { flex-direction: column; text-align: center; }
-      .requests-section { gap: 15px; }
-      .request-card { padding: 15px; }
+      .header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .requests-section {
+        gap: 15px;
+      }
+
+      .request-card {
+        padding: 15px;
+      }
     }
+
     @media (min-width: 769px) {
       .requests-section {
         flex-wrap: wrap;
@@ -283,14 +325,16 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <!-- Header -->
     <div class="header">
       <h1>My Requests</h1>
-                <button onclick="location.href='/resident'" style="margin-top:10px;padding:10px;background-color:#3A4B79;color:white;border:none;border-radius:6px;cursor:pointer;">
-                  Submit New Problem
-                </button>
+      <button onclick="location.href='/resident'"
+        style="margin-top:10px;padding:10px;background-color:#3A4B79;color:white;border:none;border-radius:6px;cursor:pointer;">
+        Submit New Problem
+      </button>
     </div>
 
     <!-- Problem List Section -->
@@ -358,10 +402,13 @@
               <div class="ticket-details">
                 <h2>#${ticket_number}</h2>
                 <p><strong>Issue:</strong> ${description}</p>
-                <p><strong>Issue:</strong> ${engdescription}</p>
+                <p><strong>Translated:</strong> ${engdescription}</p>
                 <p><strong>Days Facing:</strong> ${days_facing_issue}</p>
                 <p><strong>Handled By:</strong> ${handleby}</p>
               </div>
+              <button onclick="deleteTicket(${ticket_number})" style="padding:8px 12px; background-color:#e74c3c; color:white; border:none; border-radius:4px; cursor:pointer; align-self:flex-end;">
+                Delete Request
+              </button>
             </div>
           `;
         });
@@ -377,6 +424,28 @@
         `;
       }
     });
+
+    async function deleteTicket(ticketNumber) {
+      if (!confirm("Are you sure you want to delete this request?")) return;
+
+      try {
+        const response = await fetch('/delete_problem', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ticket_number: ticketNumber })
+        });
+
+        if (response.ok) {
+          location.reload(); // Refresh to remove the card
+        } else {
+          alert("Failed to delete ticket.");
+        }
+      } catch (error) {
+        console.error("Error deleting ticket:", error);
+        alert("An error occurred while deleting.");
+      }
+    }
   </script>
 </body>
+
 </html>

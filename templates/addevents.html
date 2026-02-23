@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create New Event</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
@@ -144,11 +145,11 @@
       border-radius: 50%;
     }
 
-    input:checked + .slider {
+    input:checked+.slider {
       background-color: #4B2FCB;
     }
 
-    input:checked + .slider:before {
+    input:checked+.slider:before {
       transform: translateX(18px);
     }
 
@@ -211,6 +212,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="header">
@@ -219,31 +221,33 @@
       <div>🌐 EN</div>
     </div>
 
-    <form id="eventForm">
+    <form id="eventForm" method="POST" action="/create-event">
       <div class="form-group">
         <label for="eventName">Event Name</label>
-        <input type="text" id="eventName" placeholder="e.g., Diwali Celebration">
+        <input type="text" id="eventName" name="name" placeholder="e.g., Diwali Celebration" required>
       </div>
 
       <div class="form-group">
         <label for="description">Description</label>
-        <textarea id="description" placeholder="Describe the event details..."></textarea>
+        <textarea id="description" name="description" placeholder="Describe the event details..."></textarea>
       </div>
 
       <div class="row">
         <div class="form-group">
           <label for="date">Date</label>
-          <input type="date" id="date">
+          <input type="date" id="date" name="date" required>
         </div>
         <div class="form-group">
           <label for="time">Time</label>
-          <input type="time" id="time">
+          <input type="time" id="time" name="time" required>
         </div>
       </div>
 
+      <input type="hidden" name="status" value="Upcoming">
+
       <div class="form-group">
         <label for="location">Location</label>
-        <select id="location">
+        <select id="location" name="location">
           <option>Community Hall</option>
           <option>Garden Area</option>
           <option>Clubhouse</option>
@@ -268,4 +272,5 @@
     }
   </script>
 </body>
+
 </html>
