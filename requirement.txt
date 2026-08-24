@@ -6,4 +6,8 @@ omnidimension
 pymongo
 dnspython
 jinja2
+<<<<<<< HEAD
 mongomock
+=======
+mongomock
+>>>>>>> aea1b51c1b42811e516eda76b4904b6bdc2b4ffa
