@@ -1,270 +1,235 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Voice Complaint</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-    }
+{% block title %}OmniConnect - Voice Complaint Management & Live Tickets{% endblock %}
 
-    body {
-      background: linear-gradient(145deg, #7b5eea, #a067f9);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-info">
+    <h1><span>🛠️</span> Voice Complaint Logging & Dispatch</h1>
+    <p>Hands-free voice complaint filing with Emotion-Aware Priority (P1 - P4) and live technician assignment.</p>
+  </div>
+  <div style="display: flex; gap: 0.5rem;">
+    <a href="/tracking" class="btn btn-secondary">
+      <span>📍</span> Track Status
+    </a>
+    <a href="/api/export-complaints" class="btn btn-secondary">
+      <span>📥</span> Export CSV
+    </a>
+  </div>
+</div>
 
-    .container {
-      background-color: white;
-      border-radius: 20px;
-      padding: 25px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      text-align: center;
-    }
+<!-- ======================================================================
+     Voice Complaint Input & Emotion Ring Form
+     ====================================================================== -->
+<div class="glass-card highlight" style="margin-bottom: 2.5rem;">
+  <div class="card-header">
+    <h3 class="card-title"><span>🎙️</span> Log Issue by Voice or Form</h3>
+    <span class="status-badge in-progress">AI Voice Transcription Active</span>
+  </div>
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-    }
+  <div class="grid-2" style="align-items: center;">
+    <!-- Voice Interaction Left Column -->
+    <div style="text-align: center; padding: 1rem; border-right: 1px solid var(--border-glass);">
+      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem;">Emotion & Tone Detection</h4>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+        Speak clearly into your microphone. Our tone analyzer detects urgency and emotional sentiment to assign the correct response SLA.
+      </p>
 
-    .header button {
-      background: #ececec;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .lang-btn {
-      background-color: #7b5eea;
-      color: white;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .section-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-      font-size: 18px;
-    }
-
-    .language-list {
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      padding: 15px;
-      text-align: left;
-      margin-bottom: 20px;
-    }
-
-    .language-option {
-      padding: 10px 15px;
-      border: 2px solid transparent;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      font-size: 15px;
-    }
-
-    .language-option:hover,
-    .language-option.active {
-      border-color: #7b5eea;
-      background-color: #f3f1ff;
-    }
-
-    .language-option span {
-      font-weight: bold;
-      width: 25px;
-    }
-
-    .info-text {
-      margin: 15px 0;
-      font-size: 14px;
-      color: #555;
-    }
-
-    .mic-button {
-      background-color: #e53935;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(229, 57, 53, 0.5);
-      animation: pulse 1.6s infinite;
-    }
-
-    .mic-button img {
-      width: 40px;
-      height: 40px;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
-      }
-
-      70% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 15px rgba(229, 57, 53, 0);
-      }
-
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 20px;
-        max-width: 100%;
-      }
-
-      .header {
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <div class="header">
-      <button onclick="goBack()">← Back</button>
-      <h3 style="flex: 1; text-align: center;">Voice Complaint</h3>
-      <div onclick="launchVoiceAgent()" style="cursor: pointer; font-size: 18px;">🎤 Voice</div>
-    </div>
-
-    <div class="section-title">Choose Your Language</div>
-    <div class="language-list">
-      <div class="language-option active" onclick="selectLanguage(this)">
-        <span>IN</span> हिंदी (Hindi)
+      <div class="voice-mic-container">
+        <div class="emotion-ring" id="emotionRing" onclick="OmniVoice.toggleListening()" title="Click to Speak Complaint">
+          <span class="emotion-ring-icon" id="emotionIcon">🎤</span>
+        </div>
       </div>
-      <div class="language-option" onclick="selectLanguage(this)">
-        <span>GB</span> English
+
+      <div class="voice-wave" id="voiceWave">
+        <div class="voice-wave-bar"></div>
+        <div class="voice-wave-bar"></div>
+        <div class="voice-wave-bar"></div>
+        <div class="voice-wave-bar"></div>
+        <div class="voice-wave-bar"></div>
       </div>
-      <div class="language-option" onclick="selectLanguage(this)">
-        <span>IN</span> தமிழ் (Tamil)
+
+      <div id="emotionBadge" style="font-size: 0.85rem; font-weight: 700; color: var(--accent-cyan); margin: 0.75rem 0 0.5rem;">
+        Detected Sentiment: Neutral (P3)
+      </div>
+
+      <div class="voice-transcript-box" id="voiceTranscript">
+        <span>🗣️ Press the mic and say e.g. "Main water pipe leaking heavily in Flat 402 Tower A"</span>
+      </div>
+
+      <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 0.5rem;">
+        <button type="button" class="btn btn-primary btn-sm" id="micToggleBtn" onclick="OmniVoice.toggleListening()">
+          🎤 Speak Complaint
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="OmniVoice.setEmotion('urgent')">
+          🚨 Test Urgent
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="OmniVoice.setEmotion('frustrated')">
+          😠 Test Frustrated
+        </button>
       </div>
     </div>
 
-    <div class="section-title">Tap & Speak Your Issue</div>
-    <p class="info-text">AI will automatically detect priority and emotion</p>
+    <!-- Complaint Form Right Column -->
+    <div>
+      <form action="/submit_problem" method="POST" id="complaintForm">
+        <div class="form-group">
+          <label class="form-label">Issue Category</label>
+          <select name="problemType" id="problemTypeInput" class="form-control" required>
+            <option value="Plumbing">🚰 Plumbing (Taps, Pipes, Drain, Leakage)</option>
+            <option value="Electrical">⚡ Electrical (Lights, Power, Fan, MCB)</option>
+            <option value="Lift/Elevator">🛗 Lift / Elevator Failure</option>
+            <option value="Sanitation & Cleaning">🧹 Sanitation & Garbage Chute</option>
+            <option value="Security & Access">🛡️ Security & Intercom / Gate</option>
+          </select>
+        </div>
 
-    <div class="mic-button" onclick="startRecording()">
-      <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Mic Icon" />
+        <div class="form-group">
+          <label class="form-label">Location (Tower / Block / Floor / Flat)</label>
+          <input type="text" name="hno" id="hnoInput" class="form-control" placeholder="e.g. Tower A - Flat 402" required value="Tower A - Flat 402" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Voice / Written Description</label>
+          <textarea name="description" id="descriptionInput" rows="3" class="form-control" placeholder="Describe the issue or speak it using the microphone..." required></textarea>
+        </div>
+
+        <div class="grid-2" style="gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Priority (Auto-Detected)</label>
+            <select name="priority" id="priorityInput" class="form-control">
+              <option value="P1">🔴 P1 - Critical (Under 1 Hr)</option>
+              <option value="P2">🟠 P2 - High (Under 4 Hrs)</option>
+              <option value="P3" selected>🔵 P3 - Medium (Under 24 Hrs)</option>
+              <option value="P4">🟢 P4 - Low (Routine)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Days Facing Issue</label>
+            <input type="number" name="days" class="form-control" value="1" min="1" max="30" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+          <span>🚀</span> Submit Ticket & Assign Technician
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================================
+     Voice Ticket Status Checker Bar
+     ====================================================================== -->
+<div class="glass-card" style="margin-bottom: 2.5rem; background: rgba(18, 24, 41, 0.9);">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <h3 style="font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+        <span>🔍</span> Voice Ticket Status Query
+      </h3>
+      <p style="font-size: 0.85rem; color: var(--text-secondary);">
+        Say or type <strong style="color: #c7d2fe;">"Update on ticket 10243"</strong> for instant audio readout.
+      </p>
+    </div>
+
+    <div style="display: flex; gap: 0.5rem; flex: 1; max-width: 450px;">
+      <input type="number" id="quickTicketInput" class="form-control" placeholder="Enter 5-digit Ticket ID (e.g. 10243)" />
+      <button class="btn btn-primary" onclick="checkTypedTicket()">
+        <span>🔊</span> Check
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================================
+     Complaints Table with Status, Priority & Mock Calling
+     ====================================================================== -->
+<div class="glass-card">
+  <div class="card-header">
+    <h3 class="card-title"><span>📋</span> Registered Resident Complaints</h3>
+    <div style="display: flex; gap: 0.5rem;">
+      <span class="p-pill p1">P1 Critical</span>
+      <span class="p-pill p2">P2 High</span>
+      <span class="p-pill p3">P3 Medium</span>
+      <span class="p-pill p4">P4 Low</span>
     </div>
   </div>
 
-  <script>
-    let recognition;
-    let selectedLanguage = 'hi-IN'; // Default to Hindi as per UI initial state
+  <div class="omni-table-wrapper">
+    <table class="omni-table">
+      <thead>
+        <tr>
+          <th>Ticket ID</th>
+          <th>Resident & Location</th>
+          <th>Issue Type</th>
+          <th>Date & Time</th>
+          <th>Priority</th>
+          <th>Emotion</th>
+          <th>Status</th>
+          <th>Assigned Tech</th>
+          <th>Connect</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in tickets %}
+        <tr>
+          <td style="font-weight: 800; color: var(--primary-light);">#{{ t.ticket_number }}</td>
+          <td>
+            <div style="font-weight: 600;">{{ t.resident_name }}</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">{{ t.hno }}</div>
+          </td>
+          <td>
+            <div style="font-weight: 600;">{{ t.category }}</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              {{ t.description }}
+            </div>
+          </td>
+          <td style="font-size: 0.8rem; color: var(--text-secondary);">
+            {{ t.timestamp }}
+          </td>
+          <td>
+            <span class="p-pill {{ t.priority|lower }}">{{ t.priority }}</span>
+          </td>
+          <td>
+            {% if t.emotion == 'Urgent' %}
+            <span style="color: var(--p1-critical); font-weight: 700; font-size: 0.8rem;">🚨 Urgent</span>
+            {% elif t.emotion == 'Frustrated' %}
+            <span style="color: var(--p2-high); font-weight: 700; font-size: 0.8rem;">😠 Frustrated</span>
+            {% elif t.emotion == 'Happy' %}
+            <span style="color: var(--accent-emerald); font-weight: 700; font-size: 0.8rem;">😊 Calm</span>
+            {% else %}
+            <span style="color: var(--accent-cyan); font-weight: 700; font-size: 0.8rem;">😐 Neutral</span>
+            {% endif %}
+          </td>
+          <td>
+            <span class="status-badge {{ t.status }}">{{ t.status|title }}</span>
+          </td>
+          <td style="font-size: 0.85rem; font-weight: 600;">
+            {{ t.handleby or 'Duty Team' }}
+          </td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="OmniVoice.startTechnicianCall('{{ t.handleby }}', '{{ t.category }} Lead', '{{ t.contact }}')">
+              📞 Call Tech
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
 
-    function selectLanguage(el) {
-      document.querySelectorAll('.language-option').forEach(opt => opt.classList.remove('active'));
-      el.classList.add('active');
-      const langText = el.innerText.trim();
-      if (langText.includes("Hindi")) selectedLanguage = 'hi-IN';
-      else if (langText.includes("English")) selectedLanguage = 'en-US';
-      else if (langText.includes("Tamil")) selectedLanguage = 'ta-IN';
-      console.log("Selected Language:", selectedLanguage);
-    }
-
-    function goBack() {
-      window.history.back();
-    }
-
-    function startRecording() {
-      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-        alert("Speech recognition not supported in your browser.");
-        return;
-      }
-
-      if (recognition) {
-        recognition.abort();
-      }
-
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition = new SpeechRecognition();
-      recognition.lang = selectedLanguage;
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-
-      recognition.onstart = function () {
-        console.log("Mic recording started...");
-        const micBtn = document.querySelector('.mic-button');
-        micBtn.style.backgroundColor = "#4CAF50"; // Turn green while listening
-      };
-
-      recognition.onresult = async function (event) {
-        const transcript = event.results[0][0].transcript;
-        console.log("Captured:", transcript);
-
-        if (confirm("Captured: \"" + transcript + "\"\n\nWould you like to submit this as a complaint?")) {
-          // Send to backend
-          const response = await fetch('/voice-complaint', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({
-              'issue_type': 'Voice Reported',
-              'apartment_number': 'Auto-detected',
-              'description': transcript
-            })
-          });
-          if (response.ok) {
-            alert("Complaint submitted successfully!");
-            location.href = "/trackdetails";
-          } else {
-            alert("Failed to submit. Please try manual report.");
-          }
-        }
-      };
-
-      recognition.onerror = function (event) {
-        console.error("Error:", event.error);
-        alert("Recording error: " + event.error);
-        const micBtn = document.querySelector('.mic-button');
-        micBtn.style.backgroundColor = "#e53935";
-      };
-
-      recognition.onend = function () {
-        const micBtn = document.querySelector('.mic-button');
-        micBtn.style.backgroundColor = "#e53935";
-      };
-
-      recognition.start();
-    }
-
-    function launchVoiceAgent() {
-      alert("Launching OmniDimension Voice Assistant...");
-      // This is usually a widget, which is already present in resident.html
-      // If needed here, we'd add the script tag.
-    }
-  </script>
-</body>
-
-</html>
+{% block extra_scripts %}
+<script>
+function checkTypedTicket() {
+  const input = document.getElementById('quickTicketInput');
+  if (input && input.value) {
+    OmniVoice.checkTicketStatusVoice(input.value.trim());
+  } else {
+    OmniVoice.showOmniToast('Please enter a valid ticket number.', 'warning');
+  }
+}
+</script>
+{% endblock %}

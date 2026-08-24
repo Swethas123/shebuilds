@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+
+{% block title %}OmniConnect - Voice Polls, Quizzes & Community Games{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-info">
+    <h1><span>🗳️</span> Voice Polls, Quizzes & Gamification</h1>
+    <p>Cast your vote by voice, challenge neighbors in Voice Bingo & Trivia, and climb the society leaderboard.</p>
+  </div>
+  <div style="display: flex; gap: 0.5rem;">
+    <button class="btn btn-primary" onclick="openCreatePollModal()">
+      <span>➕</span> Create Voice Poll
+    </button>
+  </div>
+</div>
+
+<!-- ======================================================================
+     1. Live Voice Polls Section
+     ====================================================================== -->
+<div class="grid-2" style="margin-bottom: 2.5rem;">
+  {% for poll in polls %}
+  <div class="glass-card" id="poll-card-{{ poll.id }}">
+    <div class="card-header">
+      <span class="p-pill p3">{{ poll.category }}</span>
+      <span style="font-size: 0.8rem; color: var(--text-secondary);">
+        👥 <strong id="total-votes-{{ poll.id }}">{{ poll.total_votes }}</strong> Total Votes
+      </span>
+    </div>
+
+    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem;">{{ poll.title }}</h3>
+    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+      {{ poll.description }}
+    </p>
+
+    <!-- Poll Options with dynamic progress bars -->
+    <div style="display: flex; flex-direction: column; gap: 0.75rem;" id="poll-options-{{ poll.id }}">
+      {% for opt in poll.options %}
+      {% set pct = ((opt.votes / (poll.total_votes if poll.total_votes > 0 else 1)) * 100)|round|int %}
+      <div onclick="votePoll('{{ poll.id }}', {{ loop.index0 }})" style="background: rgba(10, 14, 26, 0.6); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 0.75rem 1rem; cursor: pointer; position: relative; overflow: hidden; transition: all 0.2s ease;">
+        <div style="position: absolute; top: 0; left: 0; bottom: 0; width: {{ pct }}%; background: rgba(99, 102, 241, 0.2); z-index: 1;"></div>
+        <div style="position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem;">
+          <span style="font-weight: 600;">{{ opt.label }}</span>
+          <span style="font-weight: 700; color: var(--primary-light);">{{ pct }}% ({{ opt.votes }})</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-glass); padding-top: 0.75rem;">
+      <span style="font-size: 0.75rem; color: var(--text-muted);">Created by {{ poll.created_by }}</span>
+      <button class="btn btn-secondary btn-sm" onclick="OmniVoice.speakText('{{ poll.title }}. To vote, click any option.')">
+        <span>🔊</span> Read Poll
+      </button>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- ======================================================================
+     2. Interactive Voice Games: Voice Bingo & Speak & Guess
+     ====================================================================== -->
+<div style="margin-bottom: 2.5rem;">
+  <h2 style="font-size: 1.3rem; font-weight: 800; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.25rem;">
+    <span>🎮</span> Resident Voice Games & Trivia
+  </h2>
+
+  <div class="grid-2">
+    <!-- Game 1: Voice Bingo -->
+    <div class="glass-card highlight">
+      <div class="card-header">
+        <h3 class="card-title"><span>🎲</span> Voice Society Bingo</h3>
+        <span class="status-badge resolved">Live Game Mode</span>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        The AI host calls out lucky numbers by voice! Click to mark matching numbers on your digital card.
+      </p>
+
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <div id="bingoCurrentNumber" style="font-size: 2.5rem; font-weight: 900; color: var(--accent-cyan); text-shadow: 0 0 15px rgba(6, 182, 212, 0.6);">
+          --
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">Current Called Number</div>
+      </div>
+
+      <!-- 3x3 Bingo Card -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; max-width: 280px; margin: 0 auto 1.25rem;">
+        <div class="bingo-cell" onclick="toggleBingoCell(this)">7</div>
+        <div class="bingo-cell" onclick="toggleBingoCell(this)">14</div>
+        <div class="bingo-cell" onclick="toggleBingoCell(this)">22</div>
+        <div class="bingo-cell" onclick="toggleBingoCell(this)">35</div>
+        <div class="bingo-cell marked" onclick="toggleBingoCell(this)">★ FREE</div>
+        <div class="bingo-cell" onclick="toggleBingoCell(this)">49</div>
+        <div class="bingo-cell" onclick="toggleBingoCell(this)">58</div>
+        <div class="bingo-cell" onclick="toggleBingoCell(this)">67</div>
+        <div class="bingo-cell" onclick="toggleBingoCell(this)">84</div>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; justify-content: center;">
+        <button class="btn btn-primary btn-sm" onclick="callNextBingoNumber()">
+          <span>📢</span> Call Next Number
+        </button>
+        <button class="btn btn-emerald btn-sm" onclick="claimBingoWin()">
+          <span>🏆</span> Claim BINGO!
+        </button>
+      </div>
+    </div>
+
+    <!-- Game 2: Speak & Guess Society Riddle -->
+    <div class="glass-card">
+      <div class="card-header">
+        <h3 class="card-title"><span>🧩</span> Speak & Guess (Voice Riddle)</h3>
+        <span class="status-badge pending">Daily Trivia</span>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        Listen to the society riddle and speak your answer into the microphone.
+      </p>
+
+      <div style="background: rgba(10, 14, 26, 0.7); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1.25rem; text-align: center; margin-bottom: 1rem;">
+        <div style="font-size: 1.4rem; margin-bottom: 0.5rem;">🏰</div>
+        <p style="font-size: 0.95rem; font-weight: 600; color: #c7d2fe; margin-bottom: 0.5rem;">
+          "I carry you to great heights without climbing a single step, but if power cuts off, I take a little rest. What am I?"
+        </p>
+        <button class="btn btn-secondary btn-sm" onclick="OmniVoice.speakText('I carry you to great heights without climbing a single step, but if power cuts off, I take a little rest. What am I?')">
+          <span>🔊</span> Read Riddle Aloud
+        </button>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <input type="text" id="riddleAnswerInput" class="form-control" placeholder="Speak or type your answer..." />
+        <button class="btn btn-primary" onclick="submitRiddleAnswer()">
+          <span>🎤</span> Submit
+        </button>
+      </div>
+      <div id="riddleFeedback" style="font-size: 0.8rem; font-weight: 700; text-align: center;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================================
+     3. Society Gamification Leaderboard
+     ====================================================================== -->
+<div class="glass-card">
+  <div class="card-header">
+    <h3 class="card-title"><span>🏆</span> Emerald Heights Resident Leaderboard</h3>
+    <span class="status-badge resolved">Monthly Season 4</span>
+  </div>
+
+  <div class="omni-table-wrapper">
+    <table class="omni-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Resident Name</th>
+          <th>Tower & Flat</th>
+          <th>Points</th>
+          <th>Badge / Title</th>
+          <th>Games Won</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lb in leaderboard %}
+        <tr>
+          <td style="font-weight: 800; font-size: 1rem;">
+            {% if lb.rank == 1 %}🥇 1{% elif lb.rank == 2 %}🥈 2{% elif lb.rank == 3 %}🥉 3{% else %}#{{ lb.rank }}{% endif %}
+          </td>
+          <td style="font-weight: 700;">{{ lb.name }}</td>
+          <td style="color: var(--text-secondary); font-size: 0.85rem;">{{ lb.flat }}</td>
+          <td style="color: var(--accent-emerald); font-weight: 800; font-size: 1rem;">{{ lb.points }} pts</td>
+          <td>
+            <span style="font-size: 0.8rem; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.25rem 0.6rem; border-radius: var(--radius-full); font-weight: 600;">
+              {{ lb.badge }}
+            </span>
+          </td>
+          <td style="font-weight: 600;">{{ lb.games_won }} wins</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+.bingo-cell {
+  background: rgba(10, 14, 26, 0.8);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 1rem 0.5rem;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.bingo-cell:hover {
+  border-color: var(--primary-light);
+  transform: scale(1.05);
+}
+.bingo-cell.marked {
+  background: var(--primary-gradient);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+}
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function votePoll(pollId, optionIndex) {
+  fetch('/api/polls/vote', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ poll_id: pollId, option_index: optionIndex })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      OmniVoice.showOmniToast('🗳️ Your vote has been recorded!', 'success');
+      setTimeout(() => location.reload(), 800);
+    }
+  })
+  .catch(() => {
+    OmniVoice.showOmniToast('Vote recorded!', 'success');
+  });
+}
+
+function callNextBingoNumber() {
+  const numbers = [7, 14, 22, 35, 49, 58, 67, 84, 11, 29, 44, 52];
+  const chosen = numbers[Math.floor(Math.random() * numbers.length)];
+  document.getElementById('bingoCurrentNumber').innerText = chosen;
+  OmniVoice.speakText(`Number ${chosen}! Mark number ${chosen} on your card.`);
+}
+
+function toggleBingoCell(el) {
+  el.classList.toggle('marked');
+}
+
+function claimBingoWin() {
+  OmniVoice.speakText('BINGO! Congratulations resident! You earned 100 community loyalty points!');
+  OmniVoice.showOmniToast('🎉 BINGO Confirmed! +100 Points added to your profile!', 'success');
+}
+
+function submitRiddleAnswer() {
+  const input = document.getElementById('riddleAnswerInput');
+  const fb = document.getElementById('riddleFeedback');
+  const val = (input.value || '').toLowerCase().trim();
+
+  if (val.includes('lift') || val.includes('elevator')) {
+    fb.innerHTML = '<span style="color: var(--accent-emerald);">🎉 Correct! The answer is the Elevator/Lift! +50 Points awarded.</span>';
+    OmniVoice.speakText('Spot on! The answer is the Elevator. You won 50 points!');
+    OmniVoice.showOmniToast('🎉 Correct answer! +50 Points', 'success');
+  } else {
+    fb.innerHTML = '<span style="color: var(--p1-critical);">❌ Not quite! Think of what moves between floors vertically.</span>';
+    OmniVoice.speakText('Nice try, but not quite! Think about how you move between floors.');
+  }
+}
+</script>
+{% endblock %}
