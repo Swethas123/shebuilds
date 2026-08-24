@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}OmniConnect - Voice-Enabled Virtual Community Manager{% endblock %}</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="/static/css/theme.css" />
+  
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <!-- ======================================================================
+       Universal Top Navigation Header
+       ====================================================================== -->
+  <header class="omni-header">
+    <div class="omni-nav-container">
+      <a href="/dashboard" class="omni-brand">
+        <div class="omni-logo-icon">🎙️</div>
+        <div>
+          <div class="omni-brand-name">OmniConnect</div>
+          <span class="omni-brand-tag">Community AI</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <ul class="omni-nav-links">
+        <li>
+          <a href="/dashboard" class="omni-nav-link {% if active_page == 'dashboard' %}active{% endif %}">
+            <span>🏠</span> Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="/complaints" class="omni-nav-link {% if active_page == 'complaints' %}active{% endif %}">
+            <span>🛠️</span> Complaints
+          </a>
+        </li>
+        <li>
+          <a href="/tracking" class="omni-nav-link {% if active_page == 'tracking' %}active{% endif %}">
+            <span>📍</span> Track
+          </a>
+        </li>
+        <li>
+          <a href="/events" class="omni-nav-link {% if active_page == 'events' %}active{% endif %}">
+            <span>🎉</span> Events Hub
+          </a>
+        </li>
+        <li>
+          <a href="/polls" class="omni-nav-link {% if active_page == 'polls' %}active{% endif %}">
+            <span>🗳️</span> Polls & Games
+          </a>
+        </li>
+        <li>
+          <a href="/analytics" class="omni-nav-link {% if active_page == 'analytics' %}active{% endif %}">
+            <span>📊</span> Analytics
+          </a>
+        </li>
+        <li>
+          <a href="/technician" class="omni-nav-link {% if active_page == 'technician' %}active{% endif %}">
+            <span>🔧</span> Technician
+          </a>
+        </li>
+      </ul>
+
+      <!-- Action Items & Mic -->
+      <div class="omni-header-actions">
+        <div class="society-badge">
+          <span>🏢</span> Emerald Heights
+        </div>
+
+        <button class="btn-header-mic" id="headerMicBtn" onclick="OmniVoice.toggleListening()">
+          <span>🎤</span> Speak Now
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       Page Main Body Content
+       ====================================================================== -->
+  <main class="omni-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ======================================================================
+       Mock Technician Calling Modal
+       ====================================================================== -->
+  <div class="omni-modal-backdrop" id="techCallModal">
+    <div class="omni-modal">
+      <button class="modal-close-btn" onclick="OmniVoice.endTechnicianCall()">✕</button>
+      <div class="caller-avatar-circle">👨‍🔧</div>
+      <h2 id="callTechName" style="font-size: 1.35rem; font-weight: 700;">Ramesh Kumar</h2>
+      <p id="callTechSkill" style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.35rem;">Senior Maintenance Lead</p>
+      <p id="callTechPhone" style="color: var(--primary-light); font-size: 0.85rem; font-weight: 600;">+91 98401 22345</p>
+
+      <div class="call-timer" id="callStatusText">Ringing...</div>
+      <div id="callDuration" style="font-size: 1.25rem; font-weight: 800; color: var(--accent-emerald); margin-bottom: 1.5rem;">00:00</div>
+
+      <div style="display: flex; justify-content: center; gap: 1rem;">
+        <button class="btn btn-secondary" onclick="OmniVoice.showOmniToast('Mute toggled', 'info')">
+          <span>🔇</span> Mute
+        </button>
+        <button class="btn btn-secondary" onclick="OmniVoice.showOmniToast('Speaker mode active', 'info')">
+          <span>🔊</span> Speaker
+        </button>
+        <button class="btn btn-rose" onclick="OmniVoice.endTechnicianCall()">
+          <span>📞</span> End Call
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="omni-toast-container" id="omniToastContainer"></div>
+
+  <!-- Core Voice Engine JS -->
+  <script src="/static/js/omni-voice.js"></script>
+
+  <!-- OmniDimension Voice Assistant Widget -->
+  <script id="omnidimension-web-widget" async src="https://backend.omnidim.io/web_widget.js?secret_key=4c1a8491af016e877c8da98cabe47505"></script>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

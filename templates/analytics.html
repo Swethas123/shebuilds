@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}OmniConnect - Feedback & Emotion Analytics Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-info">
+    <h1><span>📊</span> Resident Feedback & Tone Analytics</h1>
+    <p>Real-time satisfaction scoring, voice tone sentiment distribution, and society SLA metrics.</p>
+  </div>
+  <div style="display: flex; gap: 0.5rem;">
+    <a href="/feedback" class="btn btn-primary">
+      <span>✍️</span> Submit Feedback
+    </a>
+    <a href="/api/export-complaints" class="btn btn-secondary">
+      <span>📥</span> Export CSV
+    </a>
+    <button class="btn btn-secondary" onclick="window.print()">
+      <span>📄</span> Print / PDF Report
+    </button>
+  </div>
+</div>
+
+<!-- ======================================================================
+     1. High-Level KPI Summary
+     ====================================================================== -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon-wrapper stat-icon-cyan">⭐</div>
+    <div class="stat-content">
+      <div class="stat-value">94.8%</div>
+      <div class="stat-label">Resolution Satisfaction</div>
+      <span style="font-size: 0.75rem; color: var(--accent-emerald); font-weight: 700;">4.8 / 5.0 Average Rating</span>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon-wrapper stat-icon-emerald">⏱️</div>
+    <div class="stat-content">
+      <div class="stat-value">42 mins</div>
+      <div class="stat-label">P1 Average Response SLA</div>
+      <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 600;">Within 1 Hour Target</span>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon-wrapper stat-icon-indigo">👥</div>
+    <div class="stat-content">
+      <div class="stat-value">78.4%</div>
+      <div class="stat-label">Event Participation Rate</div>
+      <span style="font-size: 0.75rem; color: #818cf8; font-weight: 600;">142 Active Society Families</span>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon-wrapper stat-icon-amber">🎙️</div>
+    <div class="stat-content">
+      <div class="stat-value">86.2%</div>
+      <div class="stat-label">Voice Channel Adoption</div>
+      <span style="font-size: 0.75rem; color: var(--accent-amber); font-weight: 600;">Hands-free logging</span>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================================
+     2. Voice Sentiment Tone Distribution & Event Ranking
+     ====================================================================== -->
+<div class="grid-2" style="margin-bottom: 2.5rem;">
+  <!-- Voice Tone Sentiment Breakdown -->
+  <div class="glass-card">
+    <div class="card-header">
+      <h3 class="card-title"><span>🎭</span> Voice Tone Sentiment Analysis</h3>
+      <span class="status-badge in-progress">Omnidim.io Analyzer</span>
+    </div>
+
+    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+      Analyzed mood and voice urgency levels across all resident interactions.
+    </p>
+
+    <!-- Sentiment Bars -->
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+          <span style="font-weight: 700; color: var(--p1-critical);">🚨 Urgent / Emergency (P1)</span>
+          <span style="font-weight: 800; color: var(--p1-critical);">{{ emotions_count.Urgent }} Tickets (15%)</span>
+        </div>
+        <div style="height: 10px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;">
+          <div style="height: 100%; width: 15%; background: var(--p1-critical);"></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+          <span style="font-weight: 700; color: var(--p2-high);">😠 Frustrated / Escalated (P2)</span>
+          <span style="font-weight: 800; color: var(--p2-high);">{{ emotions_count.Frustrated }} Tickets (20%)</span>
+        </div>
+        <div style="height: 10px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;">
+          <div style="height: 100%; width: 20%; background: var(--p2-high);"></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+          <span style="font-weight: 700; color: var(--accent-cyan);">😐 Neutral / Standard (P3)</span>
+          <span style="font-weight: 800; color: var(--accent-cyan);">{{ emotions_count.Neutral }} Tickets (45%)</span>
+        </div>
+        <div style="height: 10px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;">
+          <div style="height: 100%; width: 45%; background: var(--accent-cyan);"></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+          <span style="font-weight: 700; color: var(--accent-emerald);">😊 Delighted / Calm (P4)</span>
+          <span style="font-weight: 800; color: var(--accent-emerald);">{{ emotions_count.Happy }} Tickets (20%)</span>
+        </div>
+        <div style="height: 10px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;">
+          <div style="height: 100%; width: 20%; background: var(--accent-emerald);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Event Popularity & Attendance Ranking -->
+  <div class="glass-card">
+    <div class="card-header">
+      <h3 class="card-title"><span>🏆</span> Event Popularity Ranking</h3>
+      <a href="/events" class="btn btn-secondary btn-sm">Events Hub →</a>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+      {% for evt in events %}
+      <div style="background: rgba(10, 14, 26, 0.6); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 0.85rem 1rem; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.15rem;">{{ evt.title }}</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">📍 {{ evt.location }}</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-emerald);">{{ evt.attendees }} RSVPs</div>
+          <span class="p-pill p4" style="font-size: 0.7rem;">Top Rated</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================================
+     3. Recent Resident Feedback Stream
+     ====================================================================== -->
+<div class="glass-card">
+  <div class="card-header">
+    <h3 class="card-title"><span>💬</span> Resident Reviews & Voice Feedback</h3>
+    <a href="/feedback" class="btn btn-primary btn-sm">+ Share Feedback</a>
+  </div>
+
+  <div class="grid-2">
+    {% for fb in feedbacks %}
+    <div style="background: rgba(10, 14, 26, 0.6); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1.2rem;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+        <div>
+          <strong style="font-size: 0.95rem;">{{ fb.name }}</strong>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">Category: {{ fb.category }} • {{ fb.date }}</div>
+        </div>
+        <div style="color: #fbbf24; font-size: 0.9rem;">
+          {% for i in range(fb.rating or 5) %}★{% endfor %}
+        </div>
+      </div>
+
+      <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.4;">
+        "{{ fb.comment }}"
+      </p>
+
+      <div style="margin-top: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.75rem; background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.15rem 0.5rem; border-radius: 999px; font-weight: 600;">
+          Tone: {{ fb.emotion }}
+        </span>
+        <button class="btn btn-secondary btn-sm" onclick="OmniVoice.speakText('Feedback from {{ fb.name }}: {{ fb.comment }}')">
+          <span>🔊</span> Listen
+        </button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

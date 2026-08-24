@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}OmniConnect - Community Dashboard & Voice Assistant{% endblock %}
+
+{% block content %}
+<!-- Page Hero Banner -->
+<div class="page-hero">
+  <div class="page-hero-info">
+    <h1><span>✨</span> Welcome to Emerald Heights</h1>
+    <p>Voice-enabled Virtual Community Manager & Resident Support Portal</p>
+  </div>
+  <div>
+    <a href="/complaints" class="btn btn-primary" style="margin-right: 0.5rem;">
+      <span>➕</span> Raise Complaint
+    </a>
+    <a href="/events" class="btn btn-secondary">
+      <span>🎉</span> Explore Events
+    </a>
+  </div>
+</div>
+
+<!-- ======================================================================
+     1. Interactive Voice Hero & Emotion Ring
+     ====================================================================== -->
+<div class="voice-hero-box">
+  <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.4rem;">
+    <span>🎙️</span> Speak to Omni Assistant
+  </h2>
+  <p style="color: var(--text-secondary); font-size: 0.9rem; max-width: 550px; margin: 0 auto;">
+    Say <strong style="color: #c7d2fe;">"Water leak in Flat 402"</strong> or <strong style="color: #c7d2fe;">"Check status of ticket 10243"</strong> or <strong style="color: #c7d2fe;">"What events are this weekend?"</strong>
+  </p>
+
+  <div class="voice-mic-container">
+    <div class="emotion-ring" id="emotionRing" onclick="OmniVoice.toggleListening()" title="Click to Speak">
+      <span class="emotion-ring-icon" id="emotionIcon">🎤</span>
+    </div>
+  </div>
+
+  <div class="voice-wave" id="voiceWave">
+    <div class="voice-wave-bar"></div>
+    <div class="voice-wave-bar"></div>
+    <div class="voice-wave-bar"></div>
+    <div class="voice-wave-bar"></div>
+    <div class="voice-wave-bar"></div>
+  </div>
+
+  <div id="emotionBadge" style="font-size: 0.8rem; font-weight: 700; color: var(--accent-cyan); margin-top: 0.5rem;">
+    Tone Analyzer: Ready
+  </div>
+
+  <div class="voice-transcript-box" id="voiceTranscript">
+    <span>💡 Click the mic and speak naturally...</span>
+  </div>
+
+  <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 0.75rem;">
+    <button class="btn btn-primary btn-sm" id="micToggleBtn" onclick="OmniVoice.toggleListening()">
+      🎤 Speak Now
+    </button>
+    <button class="btn btn-secondary btn-sm" onclick="OmniVoice.speakText('Welcome to Emerald Heights OmniConnect. You can report maintenance issues, RSVP to community events, or participate in voice polls.')">
+      🔊 Audio Tour
+    </button>
+  </div>
+</div>
+
+<!-- ======================================================================
+     2. Real-Time Analytics & Priority Stats (P1 - P4)
+     ====================================================================== -->
+<div class="stats-grid">
+  <!-- Total Complaints -->
+  <div class="stat-card">
+    <div class="stat-icon-wrapper stat-icon-indigo">📋</div>
+    <div class="stat-content">
+      <div class="stat-value">{{ stats.total }}</div>
+      <div class="stat-label">Total Logged Tickets</div>
+      <div class="priority-badges-row">
+        <span class="p-pill p1">P1: {{ stats.p1 }}</span>
+        <span class="p-pill p2">P2: {{ stats.p2 }}</span>
+        <span class="p-pill p3">P3: {{ stats.p3 }}</span>
+        <span class="p-pill p4">P4: {{ stats.p4 }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Support Tickets -->
+  <div class="stat-card">
+    <div class="stat-icon-wrapper stat-icon-amber">⚡</div>
+    <div class="stat-content">
+      <div class="stat-value">{{ stats.active }}</div>
+      <div class="stat-label">Active Support Tickets</div>
+      <span class="status-badge pending" style="margin-top: 0.5rem;">In Queue / Assigned</span>
+    </div>
+  </div>
+
+  <!-- Upcoming Community Events -->
+  <div class="stat-card">
+    <div class="stat-icon-wrapper stat-icon-emerald">🎉</div>
+    <div class="stat-content">
+      <div class="stat-value">{{ upcoming_events|length }}</div>
+      <div class="stat-label">Upcoming Events</div>
+      <span class="status-badge resolved" style="margin-top: 0.5rem;">AI Suggestions Active</span>
+    </div>
+  </div>
+
+  <!-- Resident Satisfaction -->
+  <div class="stat-card">
+    <div class="stat-icon-wrapper stat-icon-cyan">⭐</div>
+    <div class="stat-content">
+      <div class="stat-value">{{ stats.satisfaction }}</div>
+      <div class="stat-label">Resident Satisfaction</div>
+      <span style="font-size: 0.75rem; color: var(--accent-emerald); font-weight: 600; margin-top: 0.5rem; display: block;">
+        ↑ +3.2% vs last month
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================================
+     3. Quick Access Actions & Navigation Grid
+     ====================================================================== -->
+<div class="grid-2" style="margin-bottom: 2rem;">
+  <!-- Recent Maintenance Tickets -->
+  <div class="glass-card">
+    <div class="card-header">
+      <h3 class="card-title"><span>🛠️</span> Active Tickets</h3>
+      <a href="/tracking" class="btn btn-secondary btn-sm">View All →</a>
+    </div>
+
+    <div class="omni-table-wrapper">
+      <table class="omni-table">
+        <thead>
+          <tr>
+            <th>Ticket</th>
+            <th>Category</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in recent_tickets %}
+          <tr>
+            <td style="font-weight: 700;">#{{ t.ticket_number }}</td>
+            <td>
+              <div style="font-weight: 600;">{{ t.category }}</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">{{ t.hno }}</div>
+            </td>
+            <td>
+              <span class="p-pill {{ t.priority|lower }}">{{ t.priority }}</span>
+            </td>
+            <td>
+              <span class="status-badge {{ t.status }}">{{ t.status|title }}</span>
+            </td>
+            <td>
+              <button class="btn btn-secondary btn-sm" onclick="OmniVoice.startTechnicianCall('{{ t.handleby }}', '{{ t.category }} Specialization', '{{ t.contact }}')">
+                📞 Call
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Featured Community Events -->
+  <div class="glass-card">
+    <div class="card-header">
+      <h3 class="card-title"><span>🎉</span> Community Events</h3>
+      <a href="/events" class="btn btn-secondary btn-sm">Hub →</a>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      {% for event in upcoming_events %}
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+            <strong style="font-size: 0.95rem;">{{ event.title }}</strong>
+            {% if event.ai_suggested %}
+            <span style="font-size: 0.65rem; background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.4); padding: 0.1rem 0.4rem; border-radius: 999px; font-weight: 700;">AI Pick</span>
+            {% endif %}
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-secondary);">
+            📍 {{ event.location }} • 📅 {{ event.date }}
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
+          <button class="btn btn-secondary btn-sm" onclick="OmniVoice.speakText('{{ event.announcement_text }}')" title="Listen to Voice Announcement">
+            🔊
+          </button>
+          <a href="/events" class="btn btn-primary btn-sm">
+            RSVP
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================================
+     4. Quick Actions Row
+     ====================================================================== -->
+<div class="grid-3">
+  <div class="glass-card" style="text-align: center;">
+    <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🎙️</div>
+    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem;">Voice Complaint</h3>
+    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+      Speak your issue with emotion-aware ticket prioritization.
+    </p>
+    <a href="/complaints" class="btn btn-primary btn-sm" style="width: 100%;">
+      Open Complaint Desk
+    </a>
+  </div>
+
+  <div class="glass-card" style="text-align: center;">
+    <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🗳️</div>
+    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem;">Voice Polls & Games</h3>
+    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+      Vote by voice on society amenities, play Voice Bingo & trivia.
+    </p>
+    <a href="/polls" class="btn btn-secondary btn-sm" style="width: 100%;">
+      Participate in Polls
+    </a>
+  </div>
+
+  <div class="glass-card" style="text-align: center;">
+    <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">📊</div>
+    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem;">Feedback & Analytics</h3>
+    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+      View resident satisfaction, tone analytics, and export reports.
+    </p>
+    <a href="/analytics" class="btn btn-secondary btn-sm" style="width: 100%;">
+      View Analytics
+    </a>
+  </div>
+</div>
+{% endblock %}

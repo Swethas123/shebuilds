@@ -1,104 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Feedback</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f1f8e9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-    }
-    .feedback-container {
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-      width: 400px;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #33691e;
-    }
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-    }
-    input[type="text"], textarea {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #558b2f;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #33691e;
-    }
-    .success {
-      text-align: center;
-      color: green;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-  <div class="feedback-container">
-    <h2>Give Feedback</h2>
-    <form id="feedbackForm">
-      <label for="name">Your Name</label>
-      <input type="text" id="name" name="name" required>
+{% extends "base.html" %}
 
-      <label for="message">Your Feedback</label>
-      <textarea id="message" name="message" rows="4" required></textarea>
+{% block title %}OmniConnect - Resident Voice & Star Feedback{% endblock %}
 
-      <button type="submit">Submit Feedback</button>
-    </form>
-    <div class="success" id="successMsg"></div>
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-info">
+    <h1><span>✍️</span> Resident Feedback & Rating</h1>
+    <p>Share your voice comments and ratings on maintenance resolution, community events, or society facilities.</p>
+  </div>
+  <div>
+    <a href="/analytics" class="btn btn-secondary">
+      ← View Analytics
+    </a>
+  </div>
+</div>
+
+<div class="glass-card" style="max-width: 650px; margin: 0 auto;">
+  <div class="card-header">
+    <h3 class="card-title"><span>🎙️</span> Voice & Rating Form</h3>
+    <span class="status-badge resolved">OmniConnect Pulse</span>
   </div>
 
-  <script>
-    const form = document.getElementById("feedbackForm");
-    const successMsg = document.getElementById("successMsg");
+  <form action="/submit_feedback" method="POST">
+    <div class="form-group">
+      <label class="form-label">Resident Name</label>
+      <input type="text" name="name" class="form-control" placeholder="e.g. Aarav Sharma" required value="Aarav Sharma" />
+    </div>
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const payload = {
-        name: document.getElementById("name").value,
-        message: document.getElementById("message").value,
-      };
+    <div class="form-group">
+      <label class="form-label">Feedback Category</label>
+      <select name="category" class="form-control" required>
+        <option value="Complaint Resolution">🛠️ Maintenance / Complaint Resolution</option>
+        <option value="Community Events">🎉 Community Events & Gatherings</option>
+        <option value="Society Security & Access">🛡️ Security, Gate, and Intercom</option>
+        <option value="Clubhouse & Amenities">🏊 Clubhouse, Gym, & Pool</option>
+        <option value="General Suggestion">💡 General Society Improvement</option>
+      </select>
+    </div>
 
-      const res = await fetch("/submit_feedback", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
+    <div class="form-group">
+      <label class="form-label">Satisfaction Rating (1 to 5 Stars)</label>
+      <div style="display: flex; gap: 1rem; align-items: center; background: rgba(10, 14, 26, 0.6); padding: 0.85rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-glass);">
+        <input type="range" name="rating" id="ratingSlider" min="1" max="5" value="5" class="form-control" style="flex: 1;" oninput="updateRatingDisplay(this.value)" />
+        <span id="ratingDisplay" style="font-size: 1.25rem; font-weight: 800; color: #fbbf24;">★★★★★ (5/5)</span>
+      </div>
+    </div>
 
-      if (res.ok) {
-        form.reset();
-        successMsg.innerText = "✅ Feedback submitted successfully!";
-      } else {
-        successMsg.innerText = "❌ Submission failed. Try again.";
-      }
-    });
-  </script>
-</body>
-</html>
+    <div class="form-group">
+      <label class="form-label">Emotion Tone</label>
+      <select name="emotion" class="form-control">
+        <option value="Happy" selected>😊 Happy & Delighted</option>
+        <option value="Neutral">😐 Neutral / Satisfied</option>
+        <option value="Frustrated">😠 Needs Improvement</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Voice / Written Comment</label>
+      <div style="position: relative;">
+        <textarea name="comment" id="feedbackComment" rows="4" class="form-control" placeholder="Speak or type your feedback here..." required></textarea>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="speakFeedback()" style="position: absolute; bottom: 10px; right: 10px;">
+          🎤 Speak
+        </button>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem;">
+      <a href="/analytics" class="btn btn-secondary">Cancel</a>
+      <button type="submit" class="btn btn-primary">
+        <span>🚀</span> Submit Feedback
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function updateRatingDisplay(val) {
+  const stars = '★'.repeat(val) + '☆'.repeat(5 - val);
+  document.getElementById('ratingDisplay').innerText = `${stars} (${val}/5)`;
+}
+
+function speakFeedback() {
+  OmniVoice.toggleListening();
+  OmniVoice.showOmniToast('🎤 Listening for your feedback comment...', 'info');
+}
+</script>
+{% endblock %}

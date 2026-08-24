@@ -3,3 +3,7 @@ uvicorn
 pydantic
 python-multipart
 omnidimension
+pymongo
+dnspython
+jinja2
+mongomock
